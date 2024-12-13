@@ -1,0 +1,39 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 28px;
+  padding-left: 16px;
+  padding-right: 15px;
+}
+
+.nav-btn {
+  border-radius: 37px;
+  color: #ffffff;
+  background-color: var(--blue);
+  padding: 9px 23px;
+  border: 1px solid var(--blue);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 17.9px;
+}
+
+.nav-btn:hover {
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .nav {
+    padding-top: 40px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .nav {
+    padding-top: 40px;
+    padding-left: 361px;
+    padding-right: 361px;
+  }
+}
