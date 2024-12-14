@@ -1,0 +1,121 @@
+.additem-container {
+  width: 344px;
+  margin: 197px auto;
+  box-sizing: border-box;
+}
+
+.signature-item-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.signature-item-text {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19.09px;
+  margin-top: 24px;
+}
+
+.signature-btn {
+  background-color: #ffffff;
+  border-radius: 999px;
+  border: 0px solid #ffffff;
+  color: var(--blue);
+}
+
+.signature-btn:hover {
+  cursor: pointer;
+}
+
+.add-btn {
+  width: 100%;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 20.29px;
+  background-color: var(--gray002);
+  border: 1px solid var(--gray002);
+  border-radius: 37px;
+  height: 50px;
+  margin-top: 75px;
+}
+
+.add-btn:hover {
+  cursor: pointer;
+}
+
+.myshop-container {
+  border: 1px solid var(--white002);
+  border-radius: 25px;
+  padding: 22px 28px 20px 28px;
+  background-color: var(--white002);
+  width: 344px;
+  height: 445px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.myshop-img {
+  display: flex;
+  justify-content: space-between;
+}
+
+.myshop-text {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16.71px;
+  margin-bottom: 10px;
+}
+
+.signature-img-input {
+  border: 1px solid var(--white002);
+  background-color: var(--white002);
+  margin-bottom: 37px;
+  font-size: 17px;
+}
+
+.myshop-input {
+  border: 1px solid var(--white002);
+  background-color: var(--white002);
+  margin-bottom: 37px;
+  width: 640px;
+  font-size: 17px;
+}
+
+.file-btn {
+  color: var(--blue);
+  border: 1px solid var(--blue);
+  background-color: #ffffff;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.71px;
+  width: 76px;
+  height: 31px;
+}
+
+.myshop-password-box {
+  position: relative;
+}
+
+.visibility-img {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+@media (min-width: 768px) {
+  .additem-container {
+    width: 696px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .additem-container {
+    width: 696px;
+  }
+
+  .myshop-container {
+    width: 696px;
+  }
+}

@@ -1,0 +1,20 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --black: #14151a;
+  --red: #fb545b;
+  --blue: #3e45ec;
+  --gray001: #888790;
+  --gray002: #a2a2ac;
+  --gray003: #dddcdf;
+  --white001: #79747e;
+  --white002: #fafafb;
+  --white003: #a4a1aa;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Pretendard", sans-serif;
+}
