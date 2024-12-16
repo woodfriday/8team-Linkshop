@@ -1,0 +1,27 @@
+* {
+}
+.product-container {
+  display: block;
+  width: 344px;
+  height: 237px;
+  background-color: var(--white002);
+  padding: 24px;
+  margin-bottom: 8px;
+}
+.product-profile {
+  display: flex;
+}
+.profile-name {
+  margin-left: 15px;
+  margin-right: 36px;
+}
+.product-list {
+  display: block;
+}
+.product-list p {
+  margin: 8px 0;
+}
+.product-list-img {
+  display: flex;
+  gap: 12px;
+}
