@@ -15,7 +15,9 @@ function Header() {
           />
         </Link>
       </div>
-      <button className="nav-btn">생성하기</button>
+      <Link to="/linkpost">
+        <button className="nav-btn">생성하기</button>
+      </Link>
     </header>
   );
 }

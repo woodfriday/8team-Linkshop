@@ -1,3 +1,7 @@
+
+function AddItemPage() {
+  return (
+
 import Signature from "./SignatureItem";
 import "./AddItemPage.css";
 import "../../component/global.css";
@@ -71,6 +75,7 @@ function AddItemPage() {
         </div>
       </div>
       <button className="add-btn">생성하기</button>
+
     </div>
   );
 }
