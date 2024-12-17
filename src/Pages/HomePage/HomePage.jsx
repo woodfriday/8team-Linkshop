@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import "./HomePage.css";
@@ -32,7 +31,7 @@ function HomePage() {
       setItems(items.concat(Array.from({ length: 6 })));
     }, 1500);
   };
-  ///////////////
+  //////////////
 
   return (
     <div className="home-container">
