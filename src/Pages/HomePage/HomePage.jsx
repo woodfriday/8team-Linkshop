@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import "./HomePage.css";
+import Navigation from "../../component/Nav_bar/Navigation";
 import ProductCard from "../../component/Product/ProductCard1";
 
 // 무한스크롤
@@ -48,6 +49,54 @@ function HomePage() {
   }, []);
 
   return (
+    <div>
+      <Navigation
+        buttonName="생성하기"
+        onClick={() => {
+          window.location.href = "/linkpost";
+        }}
+      />
+      <div className="home-container">
+        {/* 검색기능 */}
+        <div className="input-box">
+          <img id="input-img" src="/images/icons/ic_search.png" alt="검색" />
+          <input
+            id="search"
+            type="text"
+            placeholder="샵 이름으로 검색해 보세요."
+          />
+        </div>
+        <div className="filter">
+          <p>상세필터</p>
+          <img
+            id="arrow-img"
+            src="/images/icons/ic_arrow.png"
+            alt="화살표"
+            width={12}
+            height={12}
+          />
+        </div>
+
+        {/* 상품리스트 */}
+        <InfiniteScroll
+          dataLength={items.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<h4>Loading...</h4>}
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>모든 상품을 다 보셨습니다!</b>
+            </p>
+          }
+        >
+          {items.map((index) => (
+            <div className="product-list" key={index}>
+              <ProductCard />
+            </div>
+          ))}
+        </InfiniteScroll>
+      </div>
+
     <div className="home-container">
       {/* 검색기능 */}
       <div className="input-box">
@@ -87,6 +136,7 @@ function HomePage() {
           </div>
         ))}
       </InfiniteScroll>
+
     </div>
   );
 }
