@@ -32,6 +32,20 @@ function HomePage() {
     }, 1500);
   };
   ///////////////
+  const [pageSize, setPageSize] = useState(getPageSize());
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setPageSize(getPageSize());
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="home-container">
@@ -67,7 +81,7 @@ function HomePage() {
           </p>
         }
       >
-        {items.map((_, index) => (
+        {items.map((index) => (
           <div className="product-list" key={index}>
             <ProductCard />
           </div>
