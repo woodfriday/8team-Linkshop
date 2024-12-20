@@ -4,14 +4,14 @@ import "./HomePage.css";
 import Navigation from "../../component/Nav_bar/Navigation";
 import ProductCard from "../../component/Product/ProductCard1";
 import { getLinkShopList } from "../../api/api";
+import useDevice from "../../hooks/useDevice";
 
 // 무한스크롤
-const getPageSize = () => {
-  const width = window.innerWidth;
-  if (width < 768) {
+const getPageSize = (mode) => {
+  if (mode === "mobile") {
     // Mobile viewport
     return 3;
-  } else if (width < 1280) {
+  } else if (mode === "tablet") {
     // Tablet viewport
     return 3;
   } else {
@@ -21,9 +21,10 @@ const getPageSize = () => {
 };
 
 function HomePage() {
+  const { mode } = useDevice();
   const [items, setItems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-  const [pageSize, setPageSize] = useState(getPageSize());
+  const [pageSize, setPageSize] = useState(getPageSize(mode));
   const [page, setPage] = useState(1);
 
   const fetchMoreData = () => {
@@ -33,21 +34,26 @@ function HomePage() {
       return;
     }
     setTimeout(() => {
-      setItems(items.concat(Array.from({ length: 6 })));
+      setItems(items.concat(Array.from({ length: pageSize })));
     }, 1500);
   };
+
+  useEffect(() => {
+    setPageSize(getPageSize(mode));
+  }, [mode]);
 
   useEffect(() => {
     getLinkShopList()
       .then((response) => response.json())
       .then((data) => {
         setItems(data.list);
-      });
+      })
+      .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
   useEffect(() => {
     const handleResize = () => {
-      setPageSize(getPageSize());
+      setPageSize(getPageSize(mode));
     };
 
     window.addEventListener("resize", handleResize);
@@ -55,12 +61,17 @@ function HomePage() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [mode]);
 
   const handleLikeClick = (index) => {
     const newItems = [...items];
     const item = newItems[index];
-    item.likes = item.likes ? item.likes + 1 : 1;
+    if (item.isLiked) {
+      item.likes -= 1;
+    } else {
+      item.likes += 1;
+    }
+    item.isLiked = !item.isLiked;
     setItems(newItems);
   };
 
