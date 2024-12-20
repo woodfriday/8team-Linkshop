@@ -3,7 +3,7 @@ import "./Navigation.css";
 import "../global.css";
 import { Link } from "react-router-dom";
 
-function Header() {
+function Header({ buttonName, onClick }) {
   return (
     <header className="nav">
       <div className="nav-container">
@@ -15,9 +15,9 @@ function Header() {
           />
         </Link>
       </div>
-      <Link to="/linkpost">
-        <button className="nav-btn">생성하기</button>
-      </Link>
+      <button className="nav-btn" onClick={onClick}>
+        {buttonName}
+      </button>
     </header>
   );
 }
