@@ -1,0 +1,10 @@
+.heart-click-container {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: start;
+  gap: 5px;
+}
+.heart-click-container p {
+  display: flex;
+}

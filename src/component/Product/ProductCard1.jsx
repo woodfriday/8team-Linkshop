@@ -1,34 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./ProductCard1.css";
+import LikeButton from "../LikeButton";
 
-function ProductCard() {
+function ProductCard({ item, likeCount, onLikeClick }) {
+  const [localLikeCount, setLocalLikeCount] = useState(likeCount);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleLikeClick = () => {
+    // 좋아요 수 증가/감소 로직
+    setIsLiked(!isLiked);
+    if (isLiked) {
+      setLocalLikeCount(localLikeCount - 1);
+    } else {
+      setLocalLikeCount(localLikeCount + 1);
+    }
+    onLikeClick();
+  };
+
+  if (!item) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="product-container">
       <div className="product-profile">
         <img
-          src="/images/icons/profile-red.png"
+          src={item.shop.imageUrl}
           width={60}
           height={60}
-          alt="Profile"
+          alt={item.shop.id}
         />
         <div className="profile-name">
-          <h2>너구리 직구상점</h2>
-          <p>@pumpkinraccoon</p>
+          <h2>{item.name}</h2>
+          <p>{item.shop.urlName}</p>
         </div>
-        <img
-          src="/images/icons/ic_heart-null.png"
-          id="heart-click"
-          width={21}
-          height={19}
-          alt="Heart Icon"
+        <LikeButton
+          likeCount={localLikeCount}
+          isLiked={isLiked}
+          onLikeClick={handleLikeClick}
         />
       </div>
       <div className="product-list">
-        <p>대표 상품 8</p>
+        <p id="product-list-text">대표 상품 {item.products.length}</p>
         <div className="product-list-img">
-          <img src="/images/shoes.png" width={95} height={95} alt="Shoes" />
-          <img src="/images/shoes.png" width={95} height={95} alt="Shoes" />
-          <img src="/images/shoes.png" width={95} height={95} alt="Shoes" />
+          {item.products.map((product) => (
+            <img
+              key={product.id}
+              src={product.imageUrl}
+              width={95}
+              height={95}
+              alt={product.name}
+            />
+          ))}
         </div>
       </div>
     </div>

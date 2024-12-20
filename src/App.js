@@ -12,7 +12,6 @@ function App() {
     // 생성 페이지
     // 수정 페이지
     <BrowserRouter>
-      <Navigation />
       <Routes>
         <Route path="/" element={<Navigate to="/list" replace />} />
         <Route path="/list" element={<HomePage />} />
