@@ -3,6 +3,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import "./HomePage.css";
 import Navigation from "../../component/Nav_bar/Navigation";
 import ProductCard from "../../component/Product/ProductCard1";
+import { getLinkShopList } from "../../api/api";
 
 // 무한스크롤
 const getPageSize = () => {
@@ -20,11 +21,14 @@ const getPageSize = () => {
 };
 
 function HomePage() {
-  const [items, setItems] = useState(Array.from({ length: 6 }));
+  const [items, setItems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [pageSize, setPageSize] = useState(getPageSize());
+  const [page, setPage] = useState(1);
 
   const fetchMoreData = () => {
     if (items.length >= 30) {
+      // 최대 30개의 데이터
       setHasMore(false);
       return;
     }
@@ -32,9 +36,14 @@ function HomePage() {
       setItems(items.concat(Array.from({ length: 6 })));
     }, 1500);
   };
-  ///////////////
-  const [pageSize, setPageSize] = useState(getPageSize());
-  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    getLinkShopList()
+      .then((response) => response.json())
+      .then((data) => {
+        setItems(data.list);
+      });
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -47,6 +56,13 @@ function HomePage() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const handleLikeClick = (index) => {
+    const newItems = [...items];
+    const item = newItems[index];
+    item.likes = item.likes ? item.likes + 1 : 1;
+    setItems(newItems);
+  };
 
   return (
     <div>
@@ -76,6 +92,33 @@ function HomePage() {
             height={12}
           />
         </div>
+        {/* 상품리스트 */}
+        <InfiniteScroll
+          dataLength={items.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<h4>Loading...</h4>}
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>모든 상품을 다 보셨습니다!</b>
+            </p>
+          }
+        >
+          {items.map((item, index) => (
+            <div className="product-list" key={index}>
+              <ProductCard
+                item={item}
+                likeCount={item.likes}
+                onLikeClick={() =>
+                  // TODO: 좋아요 API 호출
+                  handleLikeClick(index)
+                }
+              />
+            </div>
+          ))}
+        </InfiniteScroll>
+      </div>
+=======
 
         {/* 상품리스트 */}
         <InfiniteScroll
@@ -136,7 +179,6 @@ function HomePage() {
           </div>
         ))}
       </InfiniteScroll>
-
     </div>
   );
 }

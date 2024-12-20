@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
- develop
+import React from "react";
 
-function LikeButton() {
-  const [likes, setLikes] = useState(0);
-
-  const handleLike = () => {
-    setLikes(likes + 1);
-  };
-
+function LikeButton({ likeCount, isLiked, onLikeClick }) {
   return (
-    <div>
-      <button onClick={handleLike}>Like</button>
-      <p>{likes} Likes</p>
+    <div className="heart-click-container" onClick={onLikeClick}>
+      <img
+        src={
+          isLiked
+            ? "/images/icons/ic_heart-red.png"
+            : "/images/icons/ic_heart-null.png"
+        }
+        alt="좋아요"
+        width={21}
+        height={19}
+      />
+      <p>{likeCount}</p>
     </div>
   );
 }
