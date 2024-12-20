@@ -1,18 +1,36 @@
 import "./SignatureItem.css";
+import { uploadImage } from "../../api/uploadFiles";
 
-function Signature() {
+function Signature({ productImageUrl, onImageChange }) {
   return (
     <div className="signature-container">
       <div className="signauture-img">
         <div>
           <p className="signature-text">상품 대표 이미지</p>
-          <input
-            type="text"
-            className="signature-input"
-            placeholder="상품 이미지를 첨부해주세요."
-          />
+          <p className="signature-img-text">상품 이미지를 첨부해주세요.</p>
         </div>
-        <button className="file-btn">파일 첨부</button>
+        {productImageUrl ? (
+          <img src={productImageUrl} alt="미리보기" />
+        ) : (
+          <input
+            id="input-file"
+            type="file"
+            onChange={async (event) => {
+              console.log(event);
+              const file = event.target.files[0];
+              if (!file) {
+                return;
+              }
+              const response = await uploadImage(file);
+              console.log("response", response);
+              onImageChange(response.url);
+            }}
+            style={{ display: "none" }}
+          />
+        )}
+        <label className="input-file-btn" for="input-file">
+          파일 첨부
+        </label>
       </div>
       <div className="signature-name">
         <p className="signature-text">상품 이름</p>

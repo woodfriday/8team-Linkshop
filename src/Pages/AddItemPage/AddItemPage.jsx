@@ -3,9 +3,10 @@ import "./AddItemPage.css";
 import "../../component/global.css";
 import Navigation from "../../component/Nav_bar/Navigation";
 import { useState } from "react";
+import FileInput from "../../component/create/FileInput";
 
 function AddItemPage() {
-  const [signature, setSignature] = useState([1]);
+  const [signature, setSignature] = useState([{}]);
 
   const addButton = () => {
     if (signature.length < 3) {
@@ -29,7 +30,25 @@ function AddItemPage() {
           </button>
         </div>
         {signature.map((item, index) => {
-          return <Signature key={index} />;
+          return (
+            <Signature
+              key={index}
+              productImageUrl={item.shopImageUrl}
+              onImageChange={(url) => {
+                setSignature((prev) => {
+                  return prev.map((item, i) => {
+                    if (i === index) {
+                      return {
+                        ...item,
+                        shopImageUrl: url,
+                      };
+                    }
+                    return item;
+                  });
+                });
+              }}
+            />
+          );
         })}
 
         <div>
@@ -39,13 +58,9 @@ function AddItemPage() {
           <div className="myshop-img">
             <div>
               <p className="myshop-text">상품 대표 이미지</p>
-              <input
-                type="text"
-                className="signature-img-input"
-                placeholder="상품 이미지를 첨부해주세요."
-              />
+              <p className="myshop-img-text">상품 이미지를 첨부해주세요.</p>
             </div>
-            <button className="file-btn">파일첨부</button>
+            <FileInput />
           </div>
           <p className="myshop-text">이름</p>
           <input
@@ -70,13 +85,8 @@ function AddItemPage() {
             <input
               className="myshop-input"
               type="password"
-              placeholder="비밀번호를 입력해주세요."
+              placeholder="영문+숫자 6자 이상을 입력해주세요."
             />
-            {/* <img
-            id="visibility-img"
-            src="../../../images/icon/visibility-off.png"
-            alt="visibility-icon"
-          /> */}
           </div>
         </div>
         <button className="add-btn">생성하기</button>
