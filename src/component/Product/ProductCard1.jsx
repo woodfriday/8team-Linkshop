@@ -7,7 +7,7 @@ function ProductCard({ item, likeCount, onLikeClick }) {
   const [isLiked, setIsLiked] = useState(false);
 
   const handleLikeClick = () => {
-    // 좋아요 수 증가/감소 로직
+    // 좋아요 상태 토글 및 좋아요 수 증가/감소 로직
     setIsLiked(!isLiked);
     if (isLiked) {
       setLocalLikeCount(localLikeCount - 1);

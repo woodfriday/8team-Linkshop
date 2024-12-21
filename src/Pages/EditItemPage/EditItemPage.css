@@ -1,4 +1,4 @@
-.additem-container {
+/* .additem-container {
   width: 344px;
   margin: 197px auto;
   box-sizing: border-box;
@@ -21,9 +21,6 @@
   border-radius: 999px;
   border: 0px solid #ffffff;
   color: var(--blue);
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 19.09px;
 }
 
 .signature-btn:hover {
@@ -77,24 +74,12 @@
   font-size: 17px;
 }
 
-.myshop-img-text {
-  color: var(--gray001);
-  margin-bottom: 36px;
-  font-size: 17px;
-  font-weight: 400;
-  line-height: 20.29px;
-}
-
 .myshop-input {
   border: 1px solid var(--white002);
   background-color: var(--white002);
   margin-bottom: 37px;
-  width: 100%;
+  width: 100%px;
   font-size: 17px;
-}
-
-.myshop-input::placeholder {
-  color: var(--gray001);
 }
 
 .file-btn {
@@ -133,4 +118,4 @@
   .myshop-container {
     width: 696px;
   }
-}
+} */
