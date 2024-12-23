@@ -4,9 +4,9 @@ import "../../component/global.css";
 import "../AddItemPage/AddItemPage.css";
 import { get, update } from "../../api/editLinkshop";
 import Signature from "../AddItemPage/SignatureItem";
-import FileInput from "../../component/create/FileInput";
+import FileInput from "../../component/Create/FileInput";
 import Navigation from "../../component/Nav_bar/Navigation";
-import ToastPopup from "../../component/create/ToastPopup";
+import ToastPopup from "../../component/Create/ToastPopup";
 
 function EditItemPage() {
   const { linkid: id } = useParams();
