@@ -22,7 +22,8 @@
   padding: 22px 28px;
   background-color: var(--white002);
   width: 344px;
-  height: 245px;
+  min-height: 245px;
+  height: auto;
   margin-top: 16px;
   margin-bottom: 16px;
 }
@@ -73,6 +74,16 @@
 }
 
 @media (min-width: 768px) {
+  .input-file-btn {
+    min-height: 31px;
+    height: auto;
+  }
+
+  .signature-container {
+    width: 696px;
+    min-height: 245px;
+    height: auto;
+  }
 }
 
 @media (min-width: 1200px) {
