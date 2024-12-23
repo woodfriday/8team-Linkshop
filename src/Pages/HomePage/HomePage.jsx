@@ -5,133 +5,104 @@ import Navigation from "../../component/Nav_bar/Navigation";
 import ProductCard from "../../component/Product/ProductCard1";
 import { getLinkShopLike, getLinkShopList } from "../../api/api";
 import useDevice from "../../hooks/useDevice";
+import FilterView from "../../component/popup/FilterView";
+import CommonModal from "../../component/popup/CommonModal";
+import CommonModalMobile from "../../component/popup/CommonModalMobile";
 
 // 무한스크롤
 const getPageSize = (mode) => {
-  if (mode === "mobile") {
-    // Mobile viewport
-    return 3;
-  } else if (mode === "tablet") {
-    // Tablet viewport
-    return 3;
-  } else {
-    // Desktop viewport
-    return 6;
-  }
+  return mode === "mobile" || mode === "tablet" ? 3 : 6;
 };
 
 function HomePage() {
   const { mode } = useDevice();
   const [items, setItems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-  const [pageSize, setPageSize] = useState(getPageSize(mode));
-  const [page, setPage] = useState(1);
-
   const [keyword, setKeyword] = useState("");
-  const [orderBy, setOrdreBy] = useState("");
-
+  const [orderBy, setOrderBy] = useState("");
   const [nextCursor, setNextCursor] = useState(undefined);
-  const [NoResults, setNoResults] = useState(false); //검색결과 유무 상태
+  const [noResults, setNoResults] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const fetchMoreData = () => {
-    if (items.length >= 30) {
-      // 최대 30개의 데이터
-      setHasMore(false);
-      return;
-    }
-
-    //TODO: 새로운 데이터를 받아와야함
     getLinkShopList(keyword, orderBy, nextCursor)
       .then((response) => response.json())
       .then((data) => {
-        setNextCursor(data.nextCursor);
-        setItems(items.concat(data.list));
-        setNoResults(data.list.length === 0); //검색결과 유무 설정
-      });
-
-    // setTimeout(() => {
-    //   setItems(items.concat(Array.from({ length: pageSize })));
-    // }, 1500);
+        if (!data.list.length) {
+          setHasMore(false);
+          setNoResults(!items.length);
+        } else {
+          setNextCursor(data.nextCursor);
+          const updatedItems = data.list.map((item) => ({
+            ...item,
+            isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
+          }));
+          setItems((prevItems) => [...prevItems, ...updatedItems]);
+          setNoResults(false);
+        }
+      })
+      .catch(console.error);
   };
 
   useEffect(() => {
-    setPageSize(getPageSize(mode));
-  }, [mode]);
-
-  const handleSearsh = () => {
-    setNextCursor(undefined); //reset cursor
-    getLinkShopList(keyword, orderBy, undefined)
+    getLinkShopList()
       .then((response) => response.json())
       .then((data) => {
+        const updatedItems = data.list.map((item) => ({
+          ...item,
+          isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
+        }));
+        setItems(updatedItems);
         setNextCursor(data.nextCursor);
-        setItems(data.list);
-        setHasMore(true);
-        setNoResults(data.list.length === 0); //검색결과 유무 설정
-      });
-  };
-
-  //검색기능 enter시 기능 구현
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSearsh();
-    }
-  };
-
-  useEffect(() => {
-    getLinkShopList(undefined)
-      .then((response) => response.json())
-      .then((data) => {
-        setNextCursor(data.nextCursor);
-        setItems(data.list);
-      });
+      })
+      .catch(console.error);
   }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setPageSize(getPageSize(mode));
-    };
+  const handleSearch = () => {
+    setNextCursor(undefined);
+    getLinkShopList(keyword, orderBy)
+      .then((response) => response.json())
+      .then((data) => {
+        const updatedItems = data.list.map((item) => ({
+          ...item,
+          isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
+        }));
+        setItems(updatedItems);
+        setNextCursor(data.nextCursor);
+        setHasMore(data.list.length > 0);
+        setNoResults(!data.list.length);
+      })
+      .catch(console.error);
+  };
 
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [mode]);
-
-  // 좋아요 버튼 이벤트 핸들러 (좋아요 추가/삭제)
   const handleLikeClick = (index) => {
     const newItems = [...items];
     const item = newItems[index];
-
     getLinkShopLike(item.id, !item.isLiked)
-      .then((response) => response.json())
-      .then((data) => {
-        if (item.isLiked) {
-          item.likes -= 1;
-        } else {
-          item.likes += 1;
-        }
+      .then(() => {
         item.isLiked = !item.isLiked;
+        item.likes += item.isLiked ? 1 : -1;
+        localStorage.setItem(`shop.like.${item.id}`, item.isLiked);
         setItems(newItems);
-      });
+      })
+      .catch(console.error);
   };
+
+  const toggleFilter = () => setIsFilterOpen(!isFilterOpen);
 
   return (
     <div>
       <Navigation
         buttonName="생성하기"
-        onClick={() => {
-          window.location.href = "/linkpost";
-        }}
+        onClick={() => (window.location.href = "/linkpost")}
       />
       <div className="home-container">
-        {/* 검색기능 */}
         <div className="input-box">
           <img
             id="input-img"
             src="/images/icons/ic_search.png"
             alt="검색"
-            onClick={handleSearsh}
+            onClick={handleSearch}
           />
           <input
             id="search"
@@ -139,7 +110,7 @@ function HomePage() {
             placeholder="샵 이름으로 검색해 보세요."
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
-            onKeyDown={handleKeyDown}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
         </div>
         <div className="filter">
@@ -150,20 +121,41 @@ function HomePage() {
             alt="화살표"
             width={12}
             height={12}
+            onClick={toggleFilter}
           />
         </div>
-
-        {/* 상품리스트 */}
-        {NoResults && (
+        {isFilterOpen &&
+          (mode === "mobile" ? (
+            <CommonModalMobile>
+              <FilterView
+                onClose={toggleFilter}
+                onFilterChange={(newOrderBy) => {
+                  setOrderBy(newOrderBy);
+                  setIsFilterOpen(false);
+                }}
+                selectedFilter={orderBy}
+              />
+            </CommonModalMobile>
+          ) : (
+            <CommonModal>
+              <FilterView
+                onClose={toggleFilter}
+                onFilterChange={(newOrderBy) => {
+                  setOrderBy(newOrderBy);
+                  setIsFilterOpen(false);
+                }}
+                selectedFilter={orderBy}
+              />
+            </CommonModal>
+          ))}
+        {noResults ? (
           <div className="no-results">
             <img src="/images/search_null.png" alt="검색 결과 없음" />
             <p>검색 결과가 없어요</p>
             <br />
             <p>지금 프로필을 만들고 내 상품을 소개해보세요</p>
           </div>
-        )}
-
-        {!NoResults && (
+        ) : (
           <InfiniteScroll
             dataLength={items.length}
             next={fetchMoreData}
@@ -181,10 +173,7 @@ function HomePage() {
                   item={item}
                   likeCount={item.likes}
                   isLiked={item.isLiked}
-                  onLikeClick={() =>
-                    // TODO: 좋아요 API 호출
-                    handleLikeClick(index)
-                  }
+                  onLikeClick={() => handleLikeClick(index)}
                 />
               </div>
             ))}

@@ -1,19 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ProductCard1.css";
 import LikeButton from "../LikeButton";
 
-function ProductCard({ item, likeCount, onLikeClick }) {
+function ProductCard({
+  item,
+  likeCount,
+  isLiked: initialIsLiked,
+  onLikeClick,
+}) {
   const [localLikeCount, setLocalLikeCount] = useState(likeCount);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(initialIsLiked);
+
+  useEffect(() => {
+    setLocalLikeCount(likeCount);
+  }, [likeCount]);
+
+  useEffect(() => {
+    setIsLiked(initialIsLiked);
+  }, [initialIsLiked]);
 
   const handleLikeClick = () => {
     // 좋아요 상태 토글 및 좋아요 수 증가/감소 로직
+    const newIsLiked = !isLiked;
     setIsLiked(!isLiked);
-    if (isLiked) {
-      setLocalLikeCount(localLikeCount - 1);
-    } else {
-      setLocalLikeCount(localLikeCount + 1);
-    }
+    setLocalLikeCount((prevCount) => prevCount + (newIsLiked ? 1 : -1));
     onLikeClick();
   };
 

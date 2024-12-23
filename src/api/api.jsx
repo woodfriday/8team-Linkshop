@@ -1,17 +1,16 @@
 // apis/api.js
-export const getLinkShopList = (keyword, orderby, cursor) => {
+export const getLinkShopList = (keyword, orderBy, cursor) => {
   const url = new URL("https://linkshop-api.vercel.app/12-8/linkshops");
 
   if (keyword) {
     url.searchParams.append("keyword", keyword);
   }
-  if (orderby) {
-    url.searchParams.append("orderBy", orderby);
+  if (orderBy) {
+    url.searchParams.append("orderBy", orderBy);
   }
   if (cursor) {
     url.searchParams.append("cursor", cursor);
   }
-
   return fetch(url.href);
 };
 
