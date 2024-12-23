@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./FileInput.css";
 
-function FileInput({ onUpload }) {
-  const [preview, setPreview] = useState(undefined);
+function FileInput({ value, onUpload }) {
+  const [preview, setPreview] = useState(value || undefined);
+
+  useEffect(() => {
+    setPreview(value);
+  }, [value]);
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
@@ -40,8 +44,7 @@ function FileInput({ onUpload }) {
         onChange={handleFileChange}
         style={{ display: "none" }}
       />
-      {preview && <img className="preview-img" src={preview} alt="미리보기" />}
-      <label className="input-file-btn" for="input-file">
+      <label className="input-file-btn" htmlFor="input-file">
         파일 첨부
       </label>
     </div>

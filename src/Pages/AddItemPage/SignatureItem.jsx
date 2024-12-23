@@ -48,7 +48,7 @@ function Signature({ index, product, onProductChange }) {
             />
           ) : (
             <input
-              id="input-file"
+              id={`input-file-${index}`}
               type="file"
               accept="image/*"
               onChange={handleImageChange}
@@ -57,7 +57,7 @@ function Signature({ index, product, onProductChange }) {
           )}
         </div>
         <div>
-          <label className="input-file-btn" for="input-file">
+          <label className="input-file-btn" for={`input-file-${index}`}>
             파일 첨부
           </label>
         </div>
