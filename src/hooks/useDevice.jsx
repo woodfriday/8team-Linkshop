@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const useDevice = () => {
-  const [windowWidth, setWindowWidh] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   let mode = "desktop";
 
@@ -10,7 +10,7 @@ const useDevice = () => {
 
   useEffect(() => {
     window.addEventListener("resize", (event) => {
-      setWindowWidh(event.target.innerWidth);
+      setWindowWidth(event.target.innerWidth);
     });
   }, []);
 
