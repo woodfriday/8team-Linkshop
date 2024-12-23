@@ -14,18 +14,15 @@ export const getLinkShopList = (keyword, orderBy, cursor) => {
   return fetch(url.href);
 };
 
-export const getLinkShopLike = (linkShopId, isLiked) => {
+export const getLinkShopLike = (id, isLiked) => {
   const method = isLiked ? "POST" : "DELETE";
 
-  return fetch(
-    `https://linkshop-api.vercel.app/12-8/linkshops/${linkShopId}/like`,
-    {
-      method: method,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ isLiked: isLiked }),
-    }
-  );
+  return fetch(`https://linkshop-api.vercel.app/12-8/linkshops/${id}/like`, {
+    method: method,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ isLiked: isLiked }),
+  });
 };

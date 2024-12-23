@@ -3,6 +3,7 @@ import "./ProductCard1.css";
 import LikeButton from "../LikeButton";
 
 function ProductCard({
+  linkShopId,
   item,
   likeCount,
   isLiked: initialIsLiked,
@@ -32,39 +33,41 @@ function ProductCard({
   }
 
   return (
-    <div className="product-container">
-      <div className="product-profile">
-        <img
-          src={item.shop.imageUrl}
-          width={60}
-          height={60}
-          alt={item.shop.id}
-        />
-        <div className="profile-name">
-          <h2>{item.name}</h2>
-          <p>{item.shop.urlName}</p>
+    <a href={`/link/${linkShopId}`}>
+      <div className="product-container">
+        <div className="product-profile">
+          <img
+            src={item.shop.imageUrl}
+            width={60}
+            height={60}
+            alt={item.shop.id}
+          />
+          <div className="profile-name">
+            <h2>{item.name}</h2>
+            <p>{item.shop.urlName}</p>
+          </div>
+          <LikeButton
+            likeCount={localLikeCount}
+            isLiked={isLiked}
+            onLikeClick={handleLikeClick}
+          />
         </div>
-        <LikeButton
-          likeCount={localLikeCount}
-          isLiked={isLiked}
-          onLikeClick={handleLikeClick}
-        />
-      </div>
-      <div className="product-list">
-        <p id="product-list-text">대표 상품 {item.products.length}</p>
-        <div className="product-list-img">
-          {item.products.map((product) => (
-            <img
-              key={product.id}
-              src={product.imageUrl}
-              width={95}
-              height={95}
-              alt={product.name}
-            />
-          ))}
+        <div className="product-list">
+          <p id="product-list-text">대표 상품 {item.products.length}</p>
+          <div className="product-list-img">
+            {item.products.map((product) => (
+              <img
+                key={product.id}
+                src={product.imageUrl}
+                width={95}
+                height={95}
+                alt={product.name}
+              />
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </a>
   );
 }
 

@@ -24,6 +24,20 @@ function HomePage() {
   const [noResults, setNoResults] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+  useEffect(() => {
+    getLinkShopList()
+      .then((response) => response.json())
+      .then((data) => {
+        const updatedItems = data.list.map((item) => ({
+          ...item,
+          isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
+        }));
+        setItems(updatedItems);
+        setNextCursor(data.nextCursor);
+      })
+      .catch(console.error);
+  }, []);
+
   const fetchMoreData = () => {
     getLinkShopList(keyword, orderBy, nextCursor)
       .then((response) => response.json())
@@ -43,20 +57,6 @@ function HomePage() {
       })
       .catch(console.error);
   };
-
-  useEffect(() => {
-    getLinkShopList()
-      .then((response) => response.json())
-      .then((data) => {
-        const updatedItems = data.list.map((item) => ({
-          ...item,
-          isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
-        }));
-        setItems(updatedItems);
-        setNextCursor(data.nextCursor);
-      })
-      .catch(console.error);
-  }, []);
 
   const handleSearch = () => {
     setNextCursor(undefined);
@@ -152,7 +152,6 @@ function HomePage() {
           <div className="no-results">
             <img src="/images/search_null.png" alt="검색 결과 없음" />
             <p>검색 결과가 없어요</p>
-            <br />
             <p>지금 프로필을 만들고 내 상품을 소개해보세요</p>
           </div>
         ) : (
@@ -167,16 +166,18 @@ function HomePage() {
               </p>
             }
           >
-            {items.map((item, index) => (
-              <div className="product-list" key={index}>
-                <ProductCard
-                  item={item}
-                  likeCount={item.likes}
-                  isLiked={item.isLiked}
-                  onLikeClick={() => handleLikeClick(index)}
-                />
-              </div>
-            ))}
+            <div className={`product-item-container ${mode}`}>
+              {items.map((item, index) => (
+                <div key={index} className="product-item">
+                  <ProductCard
+                    item={item}
+                    likeCount={item.likes}
+                    isLiked={item.isLiked}
+                    onLikeClick={() => handleLikeClick(index)}
+                  />
+                </div>
+              ))}
+            </div>
           </InfiniteScroll>
         )}
       </div>

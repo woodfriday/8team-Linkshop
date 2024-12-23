@@ -1,10 +1,14 @@
+a {
+  color: inherit;
+  text-decoration: none;
+}
 .product-container {
   display: block;
   width: 100%;
   height: 237px;
   background-color: var(--white002);
   padding: 24px;
-  margin-bottom: 8px;
+  margin-bottom: 24px;
   border-radius: 25px;
 }
 .product-profile {
@@ -38,4 +42,14 @@
 .product-list-img {
   display: flex;
   gap: 12px;
+}
+@media (min-width: 768px) {
+  .product-container {
+    margin-bottom: 16px;
+  }
+}
+@media (max-width: 767px) {
+  .product-container {
+    margin-bottom: 8px;
+  }
 }
