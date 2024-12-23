@@ -1,5 +1,5 @@
 .detail-container {
-  width: 1200px;
+  width: 416px;
   margin: 64px auto;
   box-sizing: border-box;
 }
@@ -45,4 +45,16 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 19.09px;
+}
+
+@media (min-width: 768px) {
+  .detail-container {
+    width: 696px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .detail-container {
+    width: 1200px;
+  }
 }

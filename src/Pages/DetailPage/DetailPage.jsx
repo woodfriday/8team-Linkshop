@@ -2,6 +2,7 @@ import "./DetailPage.css";
 import Banner from "../../component/Detail/Banner";
 import { Link } from "react-router-dom";
 import LikeButton from "../../component/LikeButton";
+import DetailProductCard from "../../component/Product/DetailProductCard";
 
 function DetailPage() {
   return (
@@ -17,7 +18,6 @@ function DetailPage() {
         <div className="shop-info">
           <div className="detail-btn">
             <div className="detail-btn-left">
-              {/* 좋아요 버튼 (카운터 추가 해야함 css는 만들어놓음)*/}
               <LikeButton />
             </div>
             <div className="detail-btn-right">
@@ -28,6 +28,9 @@ function DetailPage() {
         </div>
         <div className="shop-products">
           <p className="shop-products-text">대표 상품</p>
+          <div className="shop-products-list">
+            <DetailProductCard />
+          </div>
         </div>
       </div>
     </div>
