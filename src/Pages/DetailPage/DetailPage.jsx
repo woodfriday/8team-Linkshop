@@ -7,7 +7,7 @@ import DetailProductCard from "../../component/Product/DetailProductCard";
 import { getProducts } from "../../api/getProducts";
 
 function DetailPage() {
-  const { linkid } = useParams(); // URL에서 linkid 가져오기
+  const { linkid } = useParams();
   const [shopDetails, setShopDetails] = useState(null);
 
   useEffect(() => {
