@@ -14,7 +14,7 @@
 
 .shop-info {
   background-color: var(--white002);
-  width: 1200px;
+  width: 400px;
   height: 266px;
   border-radius: 24px;
   margin-top: 20px;
@@ -47,14 +47,40 @@
   line-height: 19.09px;
 }
 
+.shop-products-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
 @media (min-width: 768px) {
   .detail-container {
     width: 696px;
+  }
+
+  .shop-info {
+    width: 696px;
+  }
+
+  .shop-products-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
   }
 }
 
 @media (min-width: 1200px) {
   .detail-container {
     width: 1200px;
+  }
+
+  .shop-info {
+    width: 1200px;
+  }
+
+  .shop-products-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
   }
 }

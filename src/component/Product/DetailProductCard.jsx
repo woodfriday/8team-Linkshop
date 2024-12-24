@@ -1,12 +1,17 @@
+import React from "react";
 import "./DetailProductCard.css";
 
-const DetailProductCard = () => {
+const DetailProductCard = ({ product }) => {
   return (
     <div className="productcard-container">
-      <img className="productcard-img" src="/images/shoes.png" alt="미리보기" />
+      <img
+        className="productcard-img"
+        src={product.imageUrl}
+        alt={product.name}
+      />
       <div className="productcard-text">
-        <p className="productcard-name">상품 이름</p>
-        <p className="productcard-price">￦10000</p>
+        <p className="productcard-name">{product.name}</p>
+        <p className="productcard-price">￦ {product.price.toLocaleString()}</p>
       </div>
     </div>
   );
