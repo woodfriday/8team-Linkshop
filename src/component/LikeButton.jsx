@@ -1,8 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getLinkShopLike } from "../api/api"; // 경로 수정
 
-function LikeButton({ likeCount, isLiked, onLikeClick }) {
+function LikeButton({ itemId, initialIsLiked, initialLikeCount, onLikeClick }) {
+  const [isLiked, setIsLiked] = useState(initialIsLiked);
+  const [likeCount, setLikeCount] = useState(initialLikeCount);
+
+  useEffect(() => {
+    setIsLiked(initialIsLiked);
+  }, [initialIsLiked]);
+
+  useEffect(() => {
+    setLikeCount(initialLikeCount);
+  }, [initialLikeCount]);
+
+  const handleLikeClick = (e) => {
+    e.stopPropagation(); // 클릭 이벤트 전파 중지
+    const newIsLiked = !isLiked;
+    setIsLiked(newIsLiked);
+    setLikeCount((prevCount) => prevCount + (newIsLiked ? 1 : -1));
+
+    // API 호출로 좋아요 상태 업데이트
+    getLinkShopLike(itemId, newIsLiked).catch(console.error);
+
+    // 부모 컴포넌트의 클릭 이벤트 호출
+    if (onLikeClick) {
+      onLikeClick(e);
+    }
+  };
+
   return (
-    <div className="heart-click-container" onClick={onLikeClick}>
+    <div className="heart-click-container" onClick={handleLikeClick}>
       <img
         src={
           isLiked

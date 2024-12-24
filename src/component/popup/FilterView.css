@@ -1,0 +1,45 @@
+/* 팝업 컨테이너부분 패딩 값을 줘서 해당 .filter-view h3부분은 margin-top 15px으로 계산했음. */
+.filter-view h3 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19.09px;
+  text-align: left;
+  margin-top: 15px;
+}
+#filter-close {
+  width: 23px;
+  height: 23px;
+  position: absolute;
+  top: 25px;
+  right: 24px;
+}
+.filter-view p {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.09px;
+  text-align: left;
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+.filter-view hr {
+  width: 100%;
+  top: 118px;
+  left: 24px;
+  border: 1px solid #dddcdf;
+}
+.filter-option {
+  cursor: pointer;
+}
+
+.filter-option.selected {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19.09px;
+  color: #fb545b;
+}
+
+.filter-option img {
+  position: absolute;
+  right: 24px;
+}
+
