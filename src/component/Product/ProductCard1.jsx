@@ -11,8 +11,13 @@ function ProductCard({ linkShopId, item, likeCount, isLiked: initialIsLiked }) {
   }, [likeCount]);
 
   useEffect(() => {
-    setIsLiked(initialIsLiked);
-  }, [initialIsLiked]);
+    const savedIsLiked =
+      localStorage.getItem(`shop.like.${item.id}`) === "true";
+    if (savedIsLiked !== isLiked) {
+      setIsLiked(savedIsLiked);
+      setLocalLikeCount((prevCount) => prevCount + (savedIsLiked ? 1 : -1));
+    }
+  }, [item.id, isLiked]);
 
   const handleLikeClick = (e) => {
     e.stopPropagation(); // 클릭 이벤트 전파 중지

@@ -25,41 +25,10 @@ function HomePage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   useEffect(() => {
-    getLinkShopList()
-      .then((response) => response.json())
-      .then((data) => {
-        const updatedItems = data.list.map((item) => ({
-          ...item,
-          isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
-        }));
-        setItems(updatedItems);
-        setNextCursor(data.nextCursor);
-      })
-      .catch(console.error);
+    fetchInitialData();
   }, []);
 
-  const fetchMoreData = () => {
-    getLinkShopList(keyword, orderBy, nextCursor)
-      .then((response) => response.json())
-      .then((data) => {
-        if (!data.list.length) {
-          setHasMore(false);
-          setNoResults(!items.length);
-        } else {
-          setNextCursor(data.nextCursor);
-          const updatedItems = data.list.map((item) => ({
-            ...item,
-            isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
-          }));
-          setItems((prevItems) => [...prevItems, ...updatedItems]);
-          setNoResults(false);
-        }
-      })
-      .catch(console.error);
-  };
-
-  const handleSearch = () => {
-    setNextCursor(undefined);
+  const fetchInitialData = () => {
     getLinkShopList(keyword, orderBy)
       .then((response) => response.json())
       .then((data) => {
@@ -69,8 +38,48 @@ function HomePage() {
         }));
         setItems(updatedItems);
         setNextCursor(data.nextCursor);
-        setHasMore(data.list.length > 0);
-        setNoResults(!data.list.length);
+        setNoResults(updatedItems.length === 0);
+      })
+      .catch(console.error);
+  };
+
+  const fetchMoreData = () => {
+    getLinkShopList(keyword, orderBy, nextCursor)
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data.list.length) {
+          setHasMore(false);
+          setNoResults(items.length === 0);
+        } else {
+          const updatedItems = data.list.map((item) => ({
+            ...item,
+            isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
+          }));
+          setItems((prevItems) => [...prevItems, ...updatedItems]);
+          setNextCursor(data.nextCursor);
+        }
+      })
+      .catch(console.error);
+  };
+
+  const handleSearch = () => {
+    setNextCursor(undefined);
+    fetchInitialData();
+  };
+
+  const handleFilterChange = (newOrderBy) => {
+    setOrderBy(newOrderBy);
+    setNextCursor(undefined);
+    getLinkShopList(keyword, newOrderBy) // 필터 기준에 따라 데이터를 즉시 다시 로드
+      .then((response) => response.json())
+      .then((data) => {
+        const updatedItems = data.list.map((item) => ({
+          ...item,
+          isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
+        }));
+        setItems(updatedItems);
+        setNextCursor(data.nextCursor);
+        setNoResults(updatedItems.length === 0);
       })
       .catch(console.error);
   };
@@ -129,10 +138,7 @@ function HomePage() {
             <CommonModalMobile>
               <FilterView
                 onClose={toggleFilter}
-                onFilterChange={(newOrderBy) => {
-                  setOrderBy(newOrderBy);
-                  setIsFilterOpen(false);
-                }}
+                onFilterChange={handleFilterChange}
                 selectedFilter={orderBy}
               />
             </CommonModalMobile>
@@ -140,10 +146,7 @@ function HomePage() {
             <CommonModal>
               <FilterView
                 onClose={toggleFilter}
-                onFilterChange={(newOrderBy) => {
-                  setOrderBy(newOrderBy);
-                  setIsFilterOpen(false);
-                }}
+                onFilterChange={handleFilterChange}
                 selectedFilter={orderBy}
               />
             </CommonModal>
