@@ -155,7 +155,7 @@ function HomePage() {
           <div className="no-results">
             <img src="/images/search_null.png" alt="검색 결과 없음" />
             <p>검색 결과가 없어요</p>
-            <p>지금 프로필을 만들고 내 상품을 소개해보세요</p>
+            <p>지금 프로필을 만들고 내 상품을 소개해보세요.</p>
           </div>
         ) : (
           <InfiniteScroll
