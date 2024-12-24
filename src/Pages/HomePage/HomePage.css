@@ -36,7 +36,6 @@
 }
 
 .product-item {
-  width: 587px;
   box-sizing: border-box;
 }
 .no-results {
@@ -74,7 +73,6 @@
     left: 381px;
   }
   .product-item {
-    display: flex;
     width: 49%;
     gap: 24px;
   }

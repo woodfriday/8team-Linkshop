@@ -2,13 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./ProductCard1.css";
 import LikeButton from "../LikeButton";
 
-function ProductCard({
-  linkShopId,
-  item,
-  likeCount,
-  isLiked: initialIsLiked,
-  onLikeClick,
-}) {
+function ProductCard({ linkShopId, item, likeCount, isLiked: initialIsLiked }) {
   const [localLikeCount, setLocalLikeCount] = useState(likeCount);
   const [isLiked, setIsLiked] = useState(initialIsLiked);
 
@@ -20,12 +14,11 @@ function ProductCard({
     setIsLiked(initialIsLiked);
   }, [initialIsLiked]);
 
-  const handleLikeClick = () => {
-    // 좋아요 상태 토글 및 좋아요 수 증가/감소 로직
+  const handleLikeClick = (e) => {
+    e.stopPropagation(); // 클릭 이벤트 전파 중지
     const newIsLiked = !isLiked;
-    setIsLiked(!isLiked);
+    setIsLiked(newIsLiked);
     setLocalLikeCount((prevCount) => prevCount + (newIsLiked ? 1 : -1));
-    onLikeClick();
   };
 
   if (!item) {
@@ -33,8 +26,8 @@ function ProductCard({
   }
 
   return (
-    <a href={`/link/${linkShopId}`}>
-      <div className="product-container">
+    <div className="product-container">
+      <a href={`/link/${linkShopId}`} className="product-link">
         <div className="product-profile">
           <img
             src={item.shop.imageUrl}
@@ -47,8 +40,9 @@ function ProductCard({
             <p>{item.shop.urlName}</p>
           </div>
           <LikeButton
-            likeCount={localLikeCount}
-            isLiked={isLiked}
+            itemId={item.id}
+            initialLikeCount={localLikeCount}
+            initialIsLiked={isLiked}
             onLikeClick={handleLikeClick}
           />
         </div>
@@ -66,8 +60,8 @@ function ProductCard({
             ))}
           </div>
         </div>
-      </div>
-    </a>
+      </a>
+    </div>
   );
 }
 

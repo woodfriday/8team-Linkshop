@@ -3,9 +3,9 @@ import "./AddItemPage.css";
 import "../../component/global.css";
 import { create } from "../../api/createLinkshop";
 import Signature from "./SignatureItem";
-import FileInput from "../../component/Create/FileInput";
+import FileInput from "../../component/create/FileInput";
 import Navigation from "../../component/Nav_bar/Navigation";
-import ToastPopup from "../../component/Create/ToastPopup";
+import ToastPopup from "../../component/create/ToastPopup";
 
 function AddItemPage() {
   const [name, setName] = useState("");
