@@ -6,7 +6,7 @@ import { get, update } from "../../api/editLinkshop";
 import Signature from "../AddItemPage/SignatureItem";
 import FileInput from "../../component/create/FileInput";
 import Navigation from "../../component/Nav_bar/Navigation";
-import ToastPopup from "../../component/create/ToastPopup";
+import ToastPopup from "../../component/popup/ToastPopup";
 
 function EditItemPage() {
   const { linkid: id } = useParams();
