@@ -35,14 +35,13 @@ function ProductCard({ linkShopId, item, likeCount, isLiked: initialIsLiked }) {
       <a href={`/link/${item.id}`} className="product-link">
         <div className="product-profile">
           <img
+            className="profile-img"
             src={item.shop.imageUrl}
-            width={60}
-            height={60}
             alt={item.shop.id}
           />
           <div className="profile-name">
-            <h2>{item.name}</h2>
-            <p>{item.shop.urlName}</p>
+            <h2 className="profile-name-shopname">{item.name}</h2>
+            <p className="profile-name-userid">@{item.userId}</p>
           </div>
           <LikeButton
             itemId={item.id}
@@ -56,10 +55,9 @@ function ProductCard({ linkShopId, item, likeCount, isLiked: initialIsLiked }) {
           <div className="product-list-img">
             {item.products.map((product) => (
               <img
+                className="product-preview"
                 key={product.id}
                 src={product.imageUrl}
-                width={95}
-                height={95}
                 alt={product.name}
               />
             ))}

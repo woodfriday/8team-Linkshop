@@ -8,7 +8,7 @@ import { getProducts } from "../../api/getProducts";
 import { getLinkShopDetail } from "../../api/api";
 
 function DetailPage() {
-  const { linkid } = useParams(); // URL에서 linkid 가져오기
+  const { linkid } = useParams();
   const [shopDetails, setShopDetails] = useState(null);
   const [additionalDetails, setAdditionalDetails] = useState(null);
 

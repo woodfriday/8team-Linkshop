@@ -5,7 +5,7 @@ import { create } from "../../api/createLinkshop";
 import Signature from "./SignatureItem";
 import FileInput from "../../component/create/FileInput";
 import Navigation from "../../component/Nav_bar/Navigation";
-import ToastPopup from "../../component/create/ToastPopup";
+import ToastPopup from "../../component/popup/ToastPopup";
 
 function AddItemPage() {
   const [name, setName] = useState("");
@@ -168,11 +168,19 @@ function AddItemPage() {
               <p className="myshop-text">상품 대표 이미지</p>
               <p className="myshop-img-text">쇼핑몰 이미지를 첨부해주세요.</p>
               {shopImageUrl && (
-                <img
-                  src={shopImageUrl}
-                  alt="Shop preview"
-                  className="shop-image-preview"
-                />
+                <div className="shopIMG-preview-container">
+                  <img
+                    src={shopImageUrl}
+                    alt="Shop preview"
+                    className="shop-image-preview"
+                  />
+                  <button
+                    className="remove-shopIMG-btn"
+                    onClick={() => setShopImageUrl("")} // 이미지 URL 초기화
+                  >
+                    <img src="/images/icons/ic_delete.png" alt="삭제" />
+                  </button>
+                </div>
               )}
             </div>
             <FileInput onUpload={(url) => setShopImageUrl(url)} />

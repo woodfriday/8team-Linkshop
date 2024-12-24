@@ -73,6 +73,18 @@
   cursor: pointer;
 }
 
+.signatureIMG-preview-container {
+  position: relative;
+}
+
+.remove-signatureIMG-btn {
+  position: absolute;
+  border: none;
+  background-color: transparent;
+  left: 71px;
+  top: 5px;
+}
+
 @media (min-width: 768px) {
   .input-file-btn {
     min-height: 31px;

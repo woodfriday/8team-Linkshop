@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { uploadImage } from "../../api/uploadFiles";
 import "./SignatureItem.css";
 
 function Signature({ index, product, onProductChange }) {
   const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef(null); // 파일 입력 요소 참조
 
   const handleNameChange = (event) => {
     const updatedProduct = { ...product, name: event.target.value };
@@ -31,6 +32,17 @@ function Signature({ index, product, onProductChange }) {
       console.error("이미지 업로드 실패:", error);
     } finally {
       setIsUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ""; // 파일 입력 필드 초기화
+      }
+    }
+  };
+
+  const handleImageRemove = () => {
+    const updatedProduct = { ...product, imageUrl: "" }; // 이미지 URL 초기화
+    onProductChange(index, updatedProduct);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""; // 파일 입력 필드 초기화
     }
   };
 
@@ -41,23 +53,32 @@ function Signature({ index, product, onProductChange }) {
           <p className="signature-label">상품 대표 이미지</p>
           <p className="signature-placeholder">상품 이미지를 첨부해주세요.</p>
           {product.imageUrl ? (
-            <img
-              className="signature-preview"
-              src={product.imageUrl}
-              alt="미리보기"
-            />
+            <div className="signatureIMG-preview-container">
+              <img
+                className="signature-preview"
+                src={product.imageUrl}
+                alt="미리보기"
+              />
+              <button
+                className="remove-signatureIMG-btn"
+                onClick={handleImageRemove}
+              >
+                <img src="/images/icons/ic_delete.png" alt="삭제" />
+              </button>
+            </div>
           ) : (
             <input
               id={`input-file-${index}`}
               type="file"
               accept="image/*"
               onChange={handleImageChange}
+              ref={fileInputRef}
               style={{ display: "none" }}
             />
           )}
         </div>
         <div>
-          <label className="input-file-btn" for={`input-file-${index}`}>
+          <label className="input-file-btn" htmlFor={`input-file-${index}`}>
             파일 첨부
           </label>
         </div>
