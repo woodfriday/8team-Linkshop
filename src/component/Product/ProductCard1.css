@@ -27,6 +27,8 @@ a {
   margin-bottom: 7px;
 }
 
+<<<<<<< HEAD
+=======
 .heart-click-conatiner {
   width: 100%;
   display: flex;
@@ -35,6 +37,7 @@ a {
   gap: 5px;
 }
 
+>>>>>>> develop
 .profile-name h2 {
   margin-bottom: 7px;
 }
