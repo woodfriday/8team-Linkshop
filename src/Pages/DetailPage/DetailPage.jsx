@@ -1,17 +1,36 @@
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import "./DetailPage.css";
 import Banner from "../../component/Detail/Banner";
-import { Link } from "react-router-dom";
 import LikeButton from "../../component/LikeButton";
 import DetailProductCard from "../../component/Product/DetailProductCard";
+import { getProducts } from "../../api/getProducts";
 
 function DetailPage() {
+  const { linkid } = useParams(); // URL에서 linkid 가져오기
+  const [shopDetails, setShopDetails] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getProducts(linkid);
+        setShopDetails(data);
+      } catch (error) {
+        console.error("Failed to load shop details:", error);
+      }
+    };
+
+    fetchData();
+  }, [linkid]);
+
+  if (!shopDetails) return null;
+
   return (
     <div>
       <Banner />
       <div className="detail-container">
         <div>
           <Link className="back-btn" to="/list">
-            {" "}
             {"<"} 돌아가기
           </Link>
         </div>
@@ -29,7 +48,9 @@ function DetailPage() {
         <div className="shop-products">
           <p className="shop-products-text">대표 상품</p>
           <div className="shop-products-list">
-            <DetailProductCard />
+            {shopDetails.products.map((product) => (
+              <DetailProductCard key={product.id} product={product} />
+            ))}
           </div>
         </div>
       </div>
