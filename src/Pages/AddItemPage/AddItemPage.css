@@ -144,6 +144,18 @@
   margin-bottom: 30px;
 }
 
+.shopIMG-preview-container {
+  position: relative;
+}
+
+.remove-shopIMG-btn {
+  position: absolute;
+  border: none;
+  background-color: transparent;
+  left: 71px;
+  top: 5px;
+}
+
 @media (min-width: 768px) {
   .additem-container {
     width: 696px;
