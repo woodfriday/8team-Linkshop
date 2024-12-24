@@ -32,7 +32,7 @@ function ProductCard({ linkShopId, item, likeCount, isLiked: initialIsLiked }) {
 
   return (
     <div className="product-container">
-      <a href={`/link/${linkShopId}`} className="product-link">
+      <a href={`/link/${item.id}`} className="product-link">
         <div className="product-profile">
           <img
             src={item.shop.imageUrl}

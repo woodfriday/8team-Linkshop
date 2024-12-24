@@ -1,8 +1,8 @@
 .heart-click-container {
   width: 100%;
   display: flex;
-  justify-content: end;
-  align-items: start;
+  justify-content: center;
+  align-items: center;
   gap: 5px;
 }
 .heart-click-container p {

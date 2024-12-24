@@ -26,3 +26,7 @@ export const getLinkShopLike = (id, isLiked) => {
     body: JSON.stringify({ isLiked: isLiked }),
   });
 };
+
+export const getLinkShopDetail = (id) => {
+  return fetch(`https://linkshop-api.vercel.app/12-8/linkshops/${id}`);
+};

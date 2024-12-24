@@ -1,0 +1,47 @@
+.pw-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.pw-popup {
+  width: 438px;
+  height: 342px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  padding: 25px 23px 35px;
+  position: relative;
+}
+
+.pw-popup h3 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19.09px;
+  text-align: left;
+  margin-top: 15px;
+}
+
+#popup-close {
+  width: 23px;
+  height: 23px;
+  position: absolute;
+  top: 25px;
+  right: 24px;
+}
+
+.pw-popup .content {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.09px;
+  text-align: left;
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
