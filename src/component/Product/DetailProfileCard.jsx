@@ -82,7 +82,7 @@ function DetailProfileCard({ item }) {
           className="shop-image"
         />
         <h1>{item.name}</h1>
-        <p>{item.shop.urlName}</p>
+        <p>@{item.shop.urlName}</p>
       </div>
 
       {showPwPopup && (

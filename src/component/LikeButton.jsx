@@ -51,7 +51,7 @@ function LikeButton({ itemId, initialIsLiked, initialLikeCount, onLikeClick }) {
         height={19}
         className="heart-img"
       />
-      <p>{likeCount}</p>
+      <p className="heart-count">{likeCount}</p>
     </div>
   );
 }

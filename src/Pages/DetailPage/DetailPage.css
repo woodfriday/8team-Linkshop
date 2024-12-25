@@ -1,7 +1,8 @@
+/* ㅇㅇㅁㄴㅇㅁㅇ */
 .detail-container {
-  max-width: 100%;
+  width: 416px;
   margin: 64px auto;
-  padding: 0 16px;
+  padding: 0 24px;
   box-sizing: border-box;
 }
 
@@ -49,6 +50,7 @@
 }
 
 .shop-products-list {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
@@ -81,7 +83,7 @@
 
   .shop-products-list {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 20px;
   }
 }
