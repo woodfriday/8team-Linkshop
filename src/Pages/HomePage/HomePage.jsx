@@ -172,7 +172,7 @@ function HomePage() {
             loader={<h4>Loading...</h4>}
             endMessage={
               <p style={{ textAlign: "center" }}>
-                <b>모든 상품을 다 보셨습니다!</b>
+                <b>더 이상 상품이 없어요.</b>
               </p>
             }
           >
