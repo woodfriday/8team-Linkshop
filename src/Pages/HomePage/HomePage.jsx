@@ -24,10 +24,10 @@ function HomePage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태
   const [isSearching, setIsSearching] = useState(false); // 검색 중 상태
-  const [isSearching, setIsSearching] = useState(false); // 검색 상태 추가
 
   // 데이터 로드
   const fetchInitialData = () => {
+    setIsLoading(true);
     getLinkShopList(keyword, orderBy)
       .then((response) => response.json())
       .then((data) => {
@@ -38,14 +38,12 @@ function HomePage() {
         setItems(updatedItems);
         setNextCursor(data.nextCursor);
         setNoResults(updatedItems.length === 0);
-        setHasMore(data.list.length > 0); //더 이상 로드할 데이터가 없을 때 hasMore를 false로 설정
+        setHasMore(data.list.length > 0); // 더 이상 로드할 데이터가 없을 때 hasMore를 false로 설정
+        setIsLoading(false); // 데이터 로드 후 로딩 종료
       })
       .catch((error) => {
-        (error) => {
         console.error(error);
         setIsLoading(false); // 에러 발생 시 로딩 종료
-      }(error);
-        setIsSearching(false); // 검색 중 오류 발생 시 검색 상태를 false로 설정
       });
   };
 
@@ -107,7 +105,7 @@ function HomePage() {
   const handleFilterChange = (newOrderBy) => {
     setOrderBy(newOrderBy);
     setNextCursor(undefined);
-    getLinkShopList(keyword, newOrderBy) // 필터 기준에 따라 데이터를 즉시 다시 로드
+    getLinkShopList(keyword, newOrderBy)
       .then((response) => response.json())
       .then((data) => {
         const updatedItems = data.list.map((item) => ({
@@ -117,7 +115,7 @@ function HomePage() {
         setItems(updatedItems);
         setNextCursor(data.nextCursor);
         setNoResults(updatedItems.length === 0);
-        setHasMore(data.list.length > 0); // 더이상 로드할 데이터가 없을 때 hasMore를 false로 설정
+        setHasMore(data.list.length > 0);
       })
       .catch(console.error);
   };
@@ -209,7 +207,11 @@ function HomePage() {
             dataLength={items.length}
             next={fetchMoreData}
             hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
+            loader={
+              isLoading && !isSearching ? (
+                <h4 className="loading-message">Loading...</h4>
+              ) : null
+            } // 무한스크롤 로딩
             endMessage={
               <p style={{ textAlign: "center" }}>
                 <b>더 이상 상품이 없어요.</b>
@@ -226,9 +228,9 @@ function HomePage() {
                     onLikeClick={() => handleLikeClick(index)}
                   />
                 </div>
-              ))}
-            </div>
-          </InfiniteScroll>
+              </InfiniteScroll>
+            )}
+          </>
         )}
       </div>
     </div>
