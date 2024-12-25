@@ -1,18 +1,21 @@
 .home-container {
-  padding-left: 16px;
+  width: 344px;
+  margin: 44px auto;
+  box-sizing: border-box;
+  /* padding-left: 16px;
   padding-right: 15px;
-  padding-top: 44px;
+  padding-top: 44px; */
 }
 
 .input-box {
-  display: flex;
-  align-items: center;
+  position: relative;
   height: 49px;
   margin-top: 32px;
 }
 #input-img {
   position: absolute;
-  left: 36px;
+  left: 20px;
+  top: 16px;
   cursor: pointer;
 }
 #search {
@@ -58,23 +61,15 @@
 
 @media (min-width: 768px) {
   .home-container {
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-top: 32px;
-  }
-  #input-img {
-    left: 44px;
+    width: 696px;
+    margin: 32px auto;
   }
 }
 
 @media (min-width: 1200px) {
   .home-container {
-    padding-left: 361px;
-    padding-right: 360px;
-    padding-top: 32px;
-  }
-  #input-img {
-    left: 381px;
+    width: 1199px;
+    margin: 32px auto;
   }
   .product-item {
     width: 49%;
