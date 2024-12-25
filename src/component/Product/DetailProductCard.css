@@ -36,15 +36,17 @@
   font-weight: 700;
   line-height: 23.87px;
 }
-/* 
+
 @media (min-width: 768px) {
   .productcard-container {
-    width: 696px;
+    width: 100%;
+    max-width: 696px;
   }
 }
 
 @media (min-width: 1200px) {
   .productcard-container {
-    width: 588px;
+    width: 100%;
+    max-width: 588px;
   }
-} */
+}
