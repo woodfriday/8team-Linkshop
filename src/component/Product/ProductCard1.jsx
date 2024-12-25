@@ -1,36 +1,69 @@
 import React, { useEffect, useState } from "react";
 import "./ProductCard1.css";
+import LikeButton from "../LikeButton";
 
-function ProductCard() {
+function ProductCard({ linkShopId, item, likeCount, isLiked: initialIsLiked }) {
+  const [localLikeCount, setLocalLikeCount] = useState(likeCount);
+  const [isLiked, setIsLiked] = useState(initialIsLiked);
+
+  useEffect(() => {
+    setLocalLikeCount(likeCount);
+  }, [likeCount]);
+
+  useEffect(() => {
+    const savedIsLiked =
+      localStorage.getItem(`shop.like.${item.id}`) === "true";
+    if (savedIsLiked !== isLiked) {
+      setIsLiked(savedIsLiked);
+      setLocalLikeCount((prevCount) => prevCount + (savedIsLiked ? 1 : -1));
+    }
+  }, [item.id, isLiked]);
+
+  const handleLikeClick = (e) => {
+    e.stopPropagation(); // 클릭 이벤트 전파 중지
+    const newIsLiked = !isLiked;
+    setIsLiked(newIsLiked);
+    setLocalLikeCount((prevCount) => prevCount + (newIsLiked ? 1 : -1));
+  };
+
+  if (!item) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="product-container">
-      <div className="product-profile">
-        <img
-          src="/images/icons/profile-red.png"
-          width={60}
-          height={60}
-          alt="Profile"
-        />
-        <div className="profile-name">
-          <h2>너구리 직구상점</h2>
-          <p>@pumpkinraccoon</p>
+      <a href={`/link/${item.id}`} className="product-link">
+        <div className="product-profile">
+          <img
+            className="profile-img"
+            src={item.shop.imageUrl}
+            alt={item.shop.id}
+          />
+          <div className="profile-name">
+            <h2 className="profile-name-shopname">{item.name}</h2>
+            <p className="profile-name-userid">@{item.userId}</p>
+          </div>
+          <LikeButton
+            itemId={item.id}
+            initialLikeCount={localLikeCount}
+            initialIsLiked={isLiked}
+            onLikeClick={handleLikeClick}
+          />
         </div>
-        <img
-          src="/images/icons/ic_heart-null.png"
-          id="heart-click"
-          width={21}
-          height={19}
-          alt="Heart Icon"
-        />
-      </div>
-      <div className="product-list">
-        <p>대표 상품 8</p>
-        <div className="product-list-img">
-          <img src="/images/shoes.png" width={95} height={95} alt="Shoes" />
-          <img src="/images/shoes.png" width={95} height={95} alt="Shoes" />
-          <img src="/images/shoes.png" width={95} height={95} alt="Shoes" />
+        <div className="product-list">
+          <p id="product-list-text">대표 상품 {item.products.length}</p>
+          <div className="product-list-img">
+            {item.products.map((product) => (
+              <img
+                className="product-preview"
+                key={product.id}
+                src={product.imageUrl}
+                alt={product.name}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      </a>
     </div>
   );
 }

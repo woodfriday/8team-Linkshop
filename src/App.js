@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import Navigation from "./component/Nav_bar/Navigation";
 import HomePage from "./Pages/HomePage/HomePage";
 import DetailPage from "./Pages/DetailPage/DetailPage";
 import AddItemPage from "./Pages/AddItemPage/AddItemPage";
@@ -12,7 +11,6 @@ function App() {
     // 생성 페이지
     // 수정 페이지
     <BrowserRouter>
-      <Navigation />
       <Routes>
         <Route path="/" element={<Navigate to="/list" replace />} />
         <Route path="/list" element={<HomePage />} />
