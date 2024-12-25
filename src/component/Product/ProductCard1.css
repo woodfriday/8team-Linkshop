@@ -27,12 +27,17 @@ a {
   margin-bottom: 7px;
 }
 
-.profile-name h2 {
-  margin-bottom: 7px;
+.heart-click-conatiner {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: start;
+  gap: 5px;
 }
 
 .product-list {
   display: block;
+  overflow: auto;
 }
 
 #product-list-text {
@@ -47,6 +52,7 @@ a {
   height: 60px;
   border-radius: 999px;
 }
+
 .profile-name-shopname {
   color: var(--black);
   font-size: 18px;
@@ -70,6 +76,7 @@ a {
   width: 95px;
   height: 95px;
   border-radius: 15px;
+  object-fit: cover;
 }
 
 @media (min-width: 768px) {

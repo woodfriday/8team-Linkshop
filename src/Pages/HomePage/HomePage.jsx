@@ -39,11 +39,17 @@ function HomePage() {
         setItems(updatedItems);
         setNextCursor(data.nextCursor);
         setNoResults(updatedItems.length === 0);
+        setHasMore(data.list.length > 0); //더 이상 로드할 데이터가 없을 때 hasMore를 false로 설정
       })
       .catch(console.error);
   };
 
   const fetchMoreData = () => {
+    if (!nextCursor) {
+      setHasMore(false); // nextCursor가 없으면 더 이상 데이터를 로드하지 않음
+      return;
+    }
+
     getLinkShopList(keyword, orderBy, nextCursor)
       .then((response) => response.json())
       .then((data) => {
@@ -80,6 +86,7 @@ function HomePage() {
         setItems(updatedItems);
         setNextCursor(data.nextCursor);
         setNoResults(updatedItems.length === 0);
+        setHasMore(data.list.length > 0); // 더이상 로드할 데이터가 없을 때 hasMore를 false로 설정
       })
       .catch(console.error);
   };
