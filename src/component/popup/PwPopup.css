@@ -113,3 +113,7 @@
   border: none;
   border-radius: 37px;
 }
+
+.edit-btn:hover {
+  cursor: pointer;
+}
