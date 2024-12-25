@@ -12,23 +12,27 @@
   height: 49px;
   margin-top: 32px;
 }
+
 #input-img {
   position: absolute;
   left: 20px;
   top: 16px;
   cursor: pointer;
 }
+
 #search {
   width: 100%;
   padding: 17px 0px 17px 56px;
   border-radius: 49px;
   border: 1px solid #dddcdf;
 }
+
 .filter {
   display: flex;
   align-items: center;
   margin: 20px 0 20px 21px;
 }
+
 #arrow-img {
   cursor: pointer;
 }
@@ -52,6 +56,11 @@
   line-height: 20.29px;
 }
 /* 무한스크롤 로딩 문구 */
+.loading-message {
+  text-align: center;
+  width: 100%;
+}
+
 .loading-message {
   text-align: center;
   width: 100%;

@@ -72,7 +72,7 @@ function PwPopup({ onClose, data, mode }) {
             console.log("응답 데이터:", data); // 응답 데이터 출력
 
             if (res.status === 400 && data.message === "Validation Failed") {
-              setErrorMessage("비밀번호가 잘못되었습니다.");
+              setErrorMessage("비밀번호가 옳바르지 않습니다.");
             } else {
               setErrorMessage(
                 "삭제 실패: " + (data.message || "알 수 없는 오류")
