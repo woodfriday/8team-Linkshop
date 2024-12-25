@@ -37,6 +37,11 @@
   line-height: 20.29px;
 }
 
+.signature-input:focus {
+  border: none;
+  outline: none;
+}
+
 .signature-input::placeholder {
   color: var(--gray001);
 }
@@ -83,6 +88,14 @@
   background-color: transparent;
   left: 71px;
   top: 5px;
+}
+
+.signature-text {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16.71px;
+  color: var(--black);
+  margin-bottom: 10px;
 }
 
 @media (min-width: 768px) {
