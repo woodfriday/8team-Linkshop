@@ -1,8 +1,7 @@
-/* ㅇㅇㅁㄴㅇㅁㅇ */
 .detail-container {
   width: 416px;
   margin: 64px auto;
-  padding: 0 24px;
+  padding: 0 16px;
   box-sizing: border-box;
 }
 
@@ -54,6 +53,15 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+}
+
+.loading-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 @media (min-width: 768px) {

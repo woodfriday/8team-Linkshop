@@ -33,7 +33,8 @@ function DetailPage() {
     }
   }, [linkid]);
 
-  if (!shopDetails || !additionalDetails) return <div>Loading...</div>;
+  if (!shopDetails || !additionalDetails)
+    return <div className="loading-text">Loading...</div>;
 
   return (
     <div>
