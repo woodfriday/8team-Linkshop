@@ -23,12 +23,12 @@ function HomePage() {
   const [nextCursor, setNextCursor] = useState(undefined);
   const [noResults, setNoResults] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태
+  const [isSearching, setIsSearching] = useState(false); // 검색 중 상태
 
-  useEffect(() => {
-    fetchInitialData();
-  }, []);
-
+  // 데이터 로드
   const fetchInitialData = () => {
+    setIsLoading(true);
     getLinkShopList(keyword, orderBy)
       .then((response) => response.json())
       .then((data) => {
@@ -39,9 +39,13 @@ function HomePage() {
         setItems(updatedItems);
         setNextCursor(data.nextCursor);
         setNoResults(updatedItems.length === 0);
-        setHasMore(data.list.length > 0); //더 이상 로드할 데이터가 없을 때 hasMore를 false로 설정
+        setHasMore(data.list.length > 0); // 더 이상 로드할 데이터가 없을 때 hasMore를 false로 설정
+        setIsLoading(false); // 데이터 로드 후 로딩 종료
       })
-      .catch(console.error);
+      .catch((error) => {
+        console.error(error);
+        setIsLoading(false); // 에러 발생 시 로딩 종료
+      });
   };
 
   const fetchMoreData = () => {
@@ -50,6 +54,7 @@ function HomePage() {
       return;
     }
 
+    setIsLoading(true); // 로딩 시작
     getLinkShopList(keyword, orderBy, nextCursor)
       .then((response) => response.json())
       .then((data) => {
@@ -64,19 +69,43 @@ function HomePage() {
           setItems((prevItems) => [...prevItems, ...updatedItems]);
           setNextCursor(data.nextCursor);
         }
+        setIsLoading(false); // 로딩 종료
       })
-      .catch(console.error);
+      .catch((error) => {
+        console.error(error);
+        setIsLoading(false); // 에러 발생 시 로딩 종료
+      });
   };
 
   const handleSearch = () => {
-    setNextCursor(undefined);
-    fetchInitialData();
+    setIsSearching(true); // 검색 중 상태로 설정
+    if (keyword.trim() === "") {
+      fetchInitialData(); // 검색어가 비었을 때 원래 데이터 로드
+    } else {
+      getLinkShopList(keyword, orderBy)
+        .then((response) => response.json())
+        .then((data) => {
+          const updatedItems = data.list.map((item) => ({
+            ...item,
+            isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
+          }));
+          setItems(updatedItems);
+          setNextCursor(data.nextCursor);
+          setNoResults(updatedItems.length === 0);
+          setHasMore(data.list.length > 0);
+          setIsSearching(false); // 검색 완료 후 상태 변경
+        })
+        .catch((error) => {
+          console.error(error);
+          setIsSearching(false); // 에러 발생 시 검색 상태 변경
+        });
+    }
   };
 
   const handleFilterChange = (newOrderBy) => {
     setOrderBy(newOrderBy);
     setNextCursor(undefined);
-    getLinkShopList(keyword, newOrderBy) // 필터 기준에 따라 데이터를 즉시 다시 로드
+    getLinkShopList(keyword, newOrderBy)
       .then((response) => response.json())
       .then((data) => {
         const updatedItems = data.list.map((item) => ({
@@ -86,7 +115,7 @@ function HomePage() {
         setItems(updatedItems);
         setNextCursor(data.nextCursor);
         setNoResults(updatedItems.length === 0);
-        setHasMore(data.list.length > 0); // 더이상 로드할 데이터가 없을 때 hasMore를 false로 설정
+        setHasMore(data.list.length > 0);
       })
       .catch(console.error);
   };
@@ -105,6 +134,13 @@ function HomePage() {
   };
 
   const toggleFilter = () => setIsFilterOpen(!isFilterOpen);
+
+  // 검색어가 변경될 때마다 데이터 로드
+  useEffect(() => {
+    if (!isSearching) {
+      fetchInitialData(); // 검색이 아닌 경우 데이터 로드
+    }
+  }, [keyword]);
 
   return (
     <div>
@@ -125,8 +161,10 @@ function HomePage() {
             type="text"
             placeholder="샵 이름으로 검색해 보세요."
             value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            onChange={(e) => {
+              setKeyword(e.target.value); // 타이핑할 때마다 검색어 업데이트
+            }}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()} // 엔터로도 검색 실행
           />
         </div>
         <div className="filter">
@@ -169,7 +207,11 @@ function HomePage() {
             dataLength={items.length}
             next={fetchMoreData}
             hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
+            loader={
+              isLoading && !isSearching ? (
+                <h4 className="loading-message">Loading...</h4>
+              ) : null
+            } // 무한스크롤 로딩
             endMessage={
               <p style={{ textAlign: "center" }}>
                 <b>더 이상 상품이 없어요.</b>
