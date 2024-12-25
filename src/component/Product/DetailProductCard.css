@@ -3,7 +3,8 @@
   gap: 20px;
   background-color: var(--white002);
   border-radius: 24px;
-  width: 416px;
+  width: 100%;
+  /* width: 416px; */
   height: 127px;
   padding-top: 16px;
   padding-left: 20px;
@@ -35,7 +36,7 @@
   font-weight: 700;
   line-height: 23.87px;
 }
-
+/* 
 @media (min-width: 768px) {
   .productcard-container {
     width: 696px;
@@ -46,4 +47,4 @@
   .productcard-container {
     width: 588px;
   }
-}
+} */
