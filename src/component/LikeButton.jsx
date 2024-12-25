@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getLinkShopLike } from "../api/api";
+import "./LikeButton.css";
 
 function LikeButton({ itemId, initialIsLiked, initialLikeCount, onLikeClick }) {
   const [isLiked, setIsLiked] = useState(initialIsLiked);
@@ -48,6 +49,7 @@ function LikeButton({ itemId, initialIsLiked, initialLikeCount, onLikeClick }) {
         alt="좋아요"
         width={21}
         height={19}
+        className="heart-img"
       />
       <p>{likeCount}</p>
     </div>

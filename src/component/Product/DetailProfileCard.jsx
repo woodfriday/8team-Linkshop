@@ -7,6 +7,7 @@ import PwPopup from "../popup/PwPopup";
 function DetailProfileCard({ item }) {
   const [showMenu, setShowMenu] = useState(false);
   const [showPwPopup, setShowPwPopup] = useState(false);
+  const [popupMode, setPopupMode] = useState("edit"); // default "edit" mode
 
   if (!item || !item.shop) {
     return <div>Loading...</div>;
@@ -32,7 +33,8 @@ function DetailProfileCard({ item }) {
     setShowMenu(false);
   };
 
-  const handleOpenPwPopup = () => {
+  const handleOpenPwPopup = (mode) => {
+    setPopupMode(mode);
     setShowPwPopup(true);
   };
 
@@ -65,8 +67,8 @@ function DetailProfileCard({ item }) {
             {showMenu && (
               <MenuPopup
                 onClose={handleCloseMenu}
-                onEditClick={handleOpenPwPopup}
-                onDeleteClick={handleOpenPwPopup}
+                onEditClick={() => handleOpenPwPopup("edit")}
+                onDeleteClick={() => handleOpenPwPopup("delete")}
               />
             )}
           </div>
@@ -83,7 +85,9 @@ function DetailProfileCard({ item }) {
         <p>{item.shop.urlName}</p>
       </div>
 
-      {showPwPopup && <PwPopup onClose={handleClosePwPopup} content="" />}
+      {showPwPopup && (
+        <PwPopup onClose={handleClosePwPopup} data={item} mode={popupMode} />
+      )}
     </div>
   );
 }
