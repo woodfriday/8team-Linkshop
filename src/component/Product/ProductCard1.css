@@ -27,14 +27,12 @@ a {
   margin-bottom: 7px;
 }
 
-
 .heart-click-conatiner {
   width: 100%;
   display: flex;
   justify-content: end;
   align-items: start;
   gap: 5px;
-
 }
 
 .product-list {
