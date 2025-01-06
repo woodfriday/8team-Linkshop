@@ -145,6 +145,11 @@ function EditItemPage() {
     }
   };
 
+  // 이미지 삭제 함수
+  const removeShopImage = () => {
+    setShopImageUrl(""); // 이미지 URL 초기화
+  };
+
   return (
     <div>
       <Navigation
@@ -178,11 +183,19 @@ function EditItemPage() {
               <p className="myshop-text">상품 대표 이미지</p>
               <p className="myshop-img-text">쇼핑몰 이미지를 첨부해주세요.</p>
               {shopImageUrl && (
-                <img
-                  src={shopImageUrl}
-                  alt="Shop preview"
-                  className="shop-image-preview"
-                />
+                <div className="shopIMG-preview-container">
+                  <img
+                    src={shopImageUrl}
+                    alt="Shop preview"
+                    className="shop-image-preview"
+                  />
+                  <button
+                    className="remove-shopIMG-btn"
+                    onClick={removeShopImage}
+                  >
+                    <img src="/images/icons/ic_delete.png" alt="삭제" />
+                  </button>
+                </div>
               )}
             </div>
             <FileInput
