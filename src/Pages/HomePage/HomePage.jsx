@@ -9,6 +9,7 @@ import FilterView from "../../component/popup/FilterView";
 import CommonModal from "../../component/popup/CommonModal";
 import CommonModalMobile from "../../component/popup/CommonModalMobile";
 
+// 무한스크롤
 const getPageSize = (mode) => {
   return mode === "mobile" || mode === "tablet" ? 3 : 6;
 };
@@ -16,7 +17,7 @@ const getPageSize = (mode) => {
 function HomePage() {
   const { mode } = useDevice();
   const [items, setItems] = useState([]);
-  const [hasMore, setHasMore] = useState(false); // 초기에는 false로 설정
+  const [hasMore, setHasMore] = useState(true);
   const [keyword, setKeyword] = useState("");
   const [orderBy, setOrderBy] = useState("");
   const [nextCursor, setNextCursor] = useState(undefined);
@@ -67,7 +68,6 @@ function HomePage() {
           }));
           setItems((prevItems) => [...prevItems, ...updatedItems]);
           setNextCursor(data.nextCursor);
-          setHasMore(data.nextCursor !== null); // 다음 페이지가 있으면 무한 스크롤 가능하도록 설정
         }
         setIsLoading(false); // 로딩 종료
       })
@@ -228,9 +228,9 @@ function HomePage() {
                     onLikeClick={() => handleLikeClick(index)}
                   />
                 </div>
-              </InfiniteScroll>
-            )}
-          </>
+              ))}
+            </div>
+          </InfiniteScroll>
         )}
       </div>
     </div>
