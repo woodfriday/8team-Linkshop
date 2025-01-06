@@ -1,0 +1,11 @@
+.heart-click-container {
+  display: flex;
+  gap: 5px;
+}
+
+.heart-count {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 19.09px;
+  color: var(--balck);
+}

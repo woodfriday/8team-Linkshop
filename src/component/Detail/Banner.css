@@ -1,0 +1,7 @@
+.banner {
+  width: 100%;
+  height: 74px;
+  background-image: url(../../../public/images/detail-nav-img.png); /* 기본 이미지 */
+  background-position: center;
+  background-repeat: no-repeat;
+}

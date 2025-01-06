@@ -1,0 +1,197 @@
+.additem-container {
+  width: 344px;
+  margin: 197px auto;
+  box-sizing: border-box;
+}
+
+.signature-item-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.signature-item-text {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19.09px;
+  margin-top: 24px;
+}
+
+.signature-btn {
+  background-color: #ffffff;
+  border-radius: 999px;
+  border: 0px solid #ffffff;
+  color: var(--blue);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19.09px;
+}
+
+.signature-btn:hover {
+  cursor: pointer;
+}
+
+.add-btn.active {
+  background-color: var(--blue); /* 활성화된 버튼은 파란색 */
+  border-color: var(--blue);
+}
+
+.add-btn {
+  width: 100%;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 20.29px;
+  background-color: var(--gray002);
+  border: 1px solid var(--gray002);
+  border-radius: 37px;
+  height: 50px;
+  margin-top: 75px;
+}
+
+.add-btn:hover {
+  cursor: pointer;
+}
+
+.myshop-container {
+  border: 1px solid var(--white002);
+  border-radius: 25px;
+  padding: 22px 28px 20px 28px;
+  background-color: var(--white002);
+  width: 344px;
+  min-height: 445px;
+  height: auto;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.myshop-img {
+  display: flex;
+  justify-content: space-between;
+}
+
+.myshop-text {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16.71px;
+  margin-bottom: 10px;
+}
+
+.signature-img-input {
+  border: 1px solid var(--white002);
+  background-color: var(--white002);
+  margin-bottom: 37px;
+  font-size: 17px;
+}
+
+.myshop-img-text {
+  color: var(--gray001);
+  margin-bottom: 36px;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 20.29px;
+}
+
+.myshop-input {
+  border: none;
+  background-color: var(--white002);
+  margin-bottom: 37px;
+  width: 100%;
+  font-size: 17px;
+}
+
+.myshop-input:focus {
+  border: none;
+  outline: none;
+}
+
+.myshop-input::placeholder {
+  color: var(--gray001);
+  border: none;
+}
+
+.file-btn {
+  color: var(--blue);
+  border: 1px solid var(--blue);
+  background-color: #ffffff;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.71px;
+  width: 76px;
+  height: 31px;
+}
+
+.myshop-password-box {
+  position: relative;
+}
+
+.pwd-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.pwd-container img {
+  position: absolute;
+  bottom: 50px;
+  right: -10px;
+}
+
+.shop-image-preview {
+  width: 95px;
+  height: 95px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+}
+
+.shopIMG-preview-container {
+  position: relative;
+}
+
+.remove-shopIMG-btn {
+  position: absolute;
+  border: none;
+  background-color: transparent;
+  left: 71px;
+  top: 5px;
+}
+
+@media (min-width: 768px) {
+  .additem-container {
+    width: 696px;
+  }
+
+  .myshop-container {
+    width: 696px;
+  }
+
+  .pwd-container img {
+    position: absolute;
+    bottom: 50px;
+    right: -10px;
+  }
+}
+
+.error-message {
+  color: var(--red);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.71px;
+  margin-top: 10px;
+}
+
+@media (min-width: 1200px) {
+  .additem-container {
+    width: 696px;
+  }
+
+  .myshop-container {
+    width: 696px;
+  }
+
+  .pwd-container img {
+    position: absolute;
+    bottom: 50px;
+    right: 10px;
+  }
+}
