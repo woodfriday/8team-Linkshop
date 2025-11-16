@@ -15,7 +15,7 @@ Codit FE_12 8팀 기초 프로젝트
 
 ## Linkshop 배포 주소
 
-https://12fe-8team-linkshop.netlify.app/
+https://8team-linkshop.vercel.app/
 
 ## Linkshop 피그마 시안
 
@@ -24,3 +24,4 @@ https://www.figma.com/design/OxsmzXRdMsbzevPD3Npo4B/%5BAAA%5D%EB%A7%81%ED%81%AC%
 ## Linkshop API
 
 https://linkshop-api.vercel.app/docs
+
