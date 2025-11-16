@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import "./HomePage.css";
 import Navigation from "../../component/Nav_bar/Navigation";
 import ProductCard from "../../component/Product/ProductCard1";
-import { getLinkShopLike, getLinkShopList } from "../../api/api";
+import {
+  getLinkShopLike,
+  getLinkShopList,
+  getLinkShopDetail,
+} from "../../api/api";
 import useDevice from "../../hooks/useDevice";
 import FilterView from "../../component/popup/FilterView";
 import CommonModal from "../../component/popup/CommonModal";
 import CommonModalMobile from "../../component/popup/CommonModalMobile";
-
-// 무한스크롤
-const getPageSize = (mode) => {
-  return mode === "mobile" || mode === "tablet" ? 3 : 6;
-};
 
 function HomePage() {
   const { mode } = useDevice();
@@ -27,34 +26,52 @@ function HomePage() {
   const [isSearching, setIsSearching] = useState(false); // 검색 중 상태
 
   // 데이터 로드
-  const fetchInitialData = () => {
+  const fetchInitialData = useCallback(() => {
     setIsLoading(true);
     getLinkShopList(keyword, orderBy)
       .then((response) => response.json())
       .then((data) => {
-        const updatedItems = data.list.map((item) => ({
-          ...item,
-          isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
-        }));
+        const updatedItems = data.list.map((item) => {
+          // localStorage에서 좋아요 상태 확인
+          const savedIsLiked =
+            localStorage.getItem(`shop.like.${item.id}`) === "true";
+          const savedLikeCount = localStorage.getItem(
+            `shop.likeCount.${item.id}`
+          );
+
+          return {
+            ...item,
+            // localStorage에 저장된 상태가 있으면 그것을 사용, 없으면 서버 데이터 사용
+            isLiked:
+              localStorage.getItem(`shop.like.${item.id}`) !== null
+                ? savedIsLiked
+                : item.isLiked,
+            // localStorage에 저장된 개수가 있으면 사용, 없으면 서버 값 사용
+            likes:
+              savedLikeCount !== null
+                ? parseInt(savedLikeCount, 10)
+                : item.likes,
+          };
+        });
         setItems(updatedItems);
         setNextCursor(data.nextCursor);
         setNoResults(updatedItems.length === 0);
-        setHasMore(data.list.length > 0); // 더 이상 로드할 데이터가 없을 때 hasMore를 false로 설정
-        setIsLoading(false); // 데이터 로드 후 로딩 종료
+        setHasMore(data.list.length > 0);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error(error);
-        setIsLoading(false); // 에러 발생 시 로딩 종료
+        setIsLoading(false);
       });
-  };
+  }, [keyword, orderBy]);
 
   const fetchMoreData = () => {
     if (!nextCursor) {
-      setHasMore(false); // nextCursor가 없으면 더 이상 데이터를 로드하지 않음
+      setHasMore(false);
       return;
     }
 
-    setIsLoading(true); // 로딩 시작
+    setIsLoading(true);
     getLinkShopList(keyword, orderBy, nextCursor)
       .then((response) => response.json())
       .then((data) => {
@@ -62,42 +79,52 @@ function HomePage() {
           setHasMore(false);
           setNoResults(items.length === 0);
         } else {
-          const updatedItems = data.list.map((item) => ({
-            ...item,
-            isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
-          }));
+          const updatedItems = data.list.map((item) => {
+            const savedIsLiked =
+              localStorage.getItem(`shop.like.${item.id}`) === "true";
+            return {
+              ...item,
+              isLiked: savedIsLiked !== null ? savedIsLiked : item.isLiked,
+              likes: item.likes,
+            };
+          });
           setItems((prevItems) => [...prevItems, ...updatedItems]);
           setNextCursor(data.nextCursor);
         }
-        setIsLoading(false); // 로딩 종료
+        setIsLoading(false);
       })
       .catch((error) => {
         console.error(error);
-        setIsLoading(false); // 에러 발생 시 로딩 종료
+        setIsLoading(false);
       });
   };
 
   const handleSearch = () => {
-    setIsSearching(true); // 검색 중 상태로 설정
+    setIsSearching(true);
     if (keyword.trim() === "") {
-      fetchInitialData(); // 검색어가 비었을 때 원래 데이터 로드
+      fetchInitialData();
     } else {
       getLinkShopList(keyword, orderBy)
         .then((response) => response.json())
         .then((data) => {
-          const updatedItems = data.list.map((item) => ({
-            ...item,
-            isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
-          }));
+          const updatedItems = data.list.map((item) => {
+            const savedIsLiked =
+              localStorage.getItem(`shop.like.${item.id}`) === "true";
+            return {
+              ...item,
+              isLiked: savedIsLiked !== null ? savedIsLiked : item.isLiked,
+              likes: item.likes,
+            };
+          });
           setItems(updatedItems);
           setNextCursor(data.nextCursor);
           setNoResults(updatedItems.length === 0);
           setHasMore(data.list.length > 0);
-          setIsSearching(false); // 검색 완료 후 상태 변경
+          setIsSearching(false);
         })
         .catch((error) => {
           console.error(error);
-          setIsSearching(false); // 에러 발생 시 검색 상태 변경
+          setIsSearching(false);
         });
     }
   };
@@ -108,10 +135,25 @@ function HomePage() {
     getLinkShopList(keyword, newOrderBy)
       .then((response) => response.json())
       .then((data) => {
-        const updatedItems = data.list.map((item) => ({
-          ...item,
-          isLiked: localStorage.getItem(`shop.like.${item.id}`) === "true",
-        }));
+        const updatedItems = data.list.map((item) => {
+          const savedIsLiked =
+            localStorage.getItem(`shop.like.${item.id}`) === "true";
+          const savedLikeCount = localStorage.getItem(
+            `shop.likeCount.${item.id}`
+          );
+
+          return {
+            ...item,
+            isLiked:
+              localStorage.getItem(`shop.like.${item.id}`) !== null
+                ? savedIsLiked
+                : item.isLiked,
+            likes:
+              savedLikeCount !== null
+                ? parseInt(savedLikeCount, 10)
+                : item.likes,
+          };
+        });
         setItems(updatedItems);
         setNextCursor(data.nextCursor);
         setNoResults(updatedItems.length === 0);
@@ -123,24 +165,55 @@ function HomePage() {
   const handleLikeClick = (index) => {
     const newItems = [...items];
     const item = newItems[index];
-    getLinkShopLike(item.id, !item.isLiked)
+    const newIsLiked = !item.isLiked;
+    const originalIsLiked = item.isLiked;
+    const originalLikes = item.likes;
+
+    item.isLiked = newIsLiked;
+    item.likes += newIsLiked ? 1 : -1;
+    localStorage.setItem(`shop.like.${item.id}`, newIsLiked);
+    localStorage.setItem(`shop.likeCount.${item.id}`, item.likes.toString());
+    setItems([...newItems]);
+
+    getLinkShopLike(item.id, newIsLiked)
       .then(() => {
-        item.isLiked = !item.isLiked;
-        item.likes += item.isLiked ? 1 : -1;
-        localStorage.setItem(`shop.like.${item.id}`, item.isLiked);
-        setItems(newItems);
+        return getLinkShopDetail(item.id);
       })
-      .catch(console.error);
+      .then((response) => response.json())
+      .then((data) => {
+        setItems((prevItems) =>
+          prevItems.map((i) =>
+            i.id === item.id
+              ? { ...i, isLiked: data.isLiked, likes: data.likes }
+              : i
+          )
+        );
+        localStorage.setItem(`shop.like.${item.id}`, data.isLiked);
+        localStorage.setItem(
+          `shop.likeCount.${item.id}`,
+          data.likes.toString()
+        );
+      })
+      .catch((error) => {
+        console.error("좋아요 상태 동기화 실패:", error);
+        setItems((prevItems) =>
+          prevItems.map((i) =>
+            i.id === item.id
+              ? { ...i, isLiked: originalIsLiked, likes: originalLikes }
+              : i
+          )
+        );
+        localStorage.setItem(`shop.like.${item.id}`, originalIsLiked);
+      });
   };
 
   const toggleFilter = () => setIsFilterOpen(!isFilterOpen);
 
-  // 검색어가 변경될 때마다 데이터 로드
   useEffect(() => {
     if (!isSearching) {
-      fetchInitialData(); // 검색이 아닌 경우 데이터 로드
+      fetchInitialData();
     }
-  }, [keyword]);
+  }, [keyword, isSearching, fetchInitialData]);
 
   return (
     <div>
@@ -162,9 +235,9 @@ function HomePage() {
             placeholder="샵 이름으로 검색해 보세요."
             value={keyword}
             onChange={(e) => {
-              setKeyword(e.target.value); // 타이핑할 때마다 검색어 업데이트
+              setKeyword(e.target.value);
             }}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()} // 엔터로도 검색 실행
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
         </div>
         <div className="filter">
@@ -211,7 +284,7 @@ function HomePage() {
               isLoading && !isSearching ? (
                 <h4 className="loading-message">Loading...</h4>
               ) : null
-            } // 무한스크롤 로딩
+            }
             endMessage={
               <p style={{ textAlign: "center" }}>
                 <b>더 이상 상품이 없어요.</b>

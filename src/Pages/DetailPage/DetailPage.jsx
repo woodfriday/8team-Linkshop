@@ -22,7 +22,26 @@ function DetailPage() {
         const detailResponse = await getLinkShopDetail(linkid); // 새로운 API 호출
         const jsonDetail = await detailResponse.json();
 
-        setAdditionalDetails(jsonDetail);
+        // localStorage에서 좋아요 상태 확인
+        const savedIsLiked =
+          localStorage.getItem(`shop.like.${linkid}`) === "true";
+        const savedLikeCount = localStorage.getItem(`shop.likeCount.${linkid}`);
+
+        const updatedDetail = {
+          ...jsonDetail,
+          // localStorage에 저장된 상태가 있으면 그것을 사용, 없으면 서버 데이터 사용
+          isLiked:
+            localStorage.getItem(`shop.like.${linkid}`) !== null
+              ? savedIsLiked
+              : jsonDetail.isLiked,
+          // localStorage에 저장된 개수가 있으면 사용, 없으면 서버 값 사용
+          likes:
+            savedLikeCount !== null
+              ? parseInt(savedLikeCount, 10)
+              : jsonDetail.likes,
+        };
+
+        setAdditionalDetails(updatedDetail);
       } catch (error) {
         console.error("Failed to load shop details:", error);
       }
