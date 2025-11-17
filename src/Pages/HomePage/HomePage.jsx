@@ -22,40 +22,17 @@ function HomePage() {
   const [nextCursor, setNextCursor] = useState(undefined);
   const [noResults, setNoResults] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // 로딩 상태
-  const [isSearching, setIsSearching] = useState(false); // 검색 중 상태
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
-  // 데이터 로드
   const fetchInitialData = useCallback(() => {
     setIsLoading(true);
     getLinkShopList(keyword, orderBy)
       .then((response) => response.json())
       .then((data) => {
-        const updatedItems = data.list.map((item) => {
-          // localStorage에서 좋아요 상태 확인
-          const savedIsLiked =
-            localStorage.getItem(`shop.like.${item.id}`) === "true";
-          const savedLikeCount = localStorage.getItem(
-            `shop.likeCount.${item.id}`
-          );
-
-          return {
-            ...item,
-            // localStorage에 저장된 상태가 있으면 그것을 사용, 없으면 서버 데이터 사용
-            isLiked:
-              localStorage.getItem(`shop.like.${item.id}`) !== null
-                ? savedIsLiked
-                : item.isLiked,
-            // localStorage에 저장된 개수가 있으면 사용, 없으면 서버 값 사용
-            likes:
-              savedLikeCount !== null
-                ? parseInt(savedLikeCount, 10)
-                : item.likes,
-          };
-        });
-        setItems(updatedItems);
+        setItems(data.list);
         setNextCursor(data.nextCursor);
-        setNoResults(updatedItems.length === 0);
+        setNoResults(data.list.length === 0);
         setHasMore(data.list.length > 0);
         setIsLoading(false);
       })
@@ -79,16 +56,7 @@ function HomePage() {
           setHasMore(false);
           setNoResults(items.length === 0);
         } else {
-          const updatedItems = data.list.map((item) => {
-            const savedIsLiked =
-              localStorage.getItem(`shop.like.${item.id}`) === "true";
-            return {
-              ...item,
-              isLiked: savedIsLiked !== null ? savedIsLiked : item.isLiked,
-              likes: item.likes,
-            };
-          });
-          setItems((prevItems) => [...prevItems, ...updatedItems]);
+          setItems((prevItems) => [...prevItems, ...data.list]);
           setNextCursor(data.nextCursor);
         }
         setIsLoading(false);
@@ -107,18 +75,9 @@ function HomePage() {
       getLinkShopList(keyword, orderBy)
         .then((response) => response.json())
         .then((data) => {
-          const updatedItems = data.list.map((item) => {
-            const savedIsLiked =
-              localStorage.getItem(`shop.like.${item.id}`) === "true";
-            return {
-              ...item,
-              isLiked: savedIsLiked !== null ? savedIsLiked : item.isLiked,
-              likes: item.likes,
-            };
-          });
-          setItems(updatedItems);
+          setItems(data.list);
           setNextCursor(data.nextCursor);
-          setNoResults(updatedItems.length === 0);
+          setNoResults(data.list.length === 0);
           setHasMore(data.list.length > 0);
           setIsSearching(false);
         })
@@ -135,28 +94,9 @@ function HomePage() {
     getLinkShopList(keyword, newOrderBy)
       .then((response) => response.json())
       .then((data) => {
-        const updatedItems = data.list.map((item) => {
-          const savedIsLiked =
-            localStorage.getItem(`shop.like.${item.id}`) === "true";
-          const savedLikeCount = localStorage.getItem(
-            `shop.likeCount.${item.id}`
-          );
-
-          return {
-            ...item,
-            isLiked:
-              localStorage.getItem(`shop.like.${item.id}`) !== null
-                ? savedIsLiked
-                : item.isLiked,
-            likes:
-              savedLikeCount !== null
-                ? parseInt(savedLikeCount, 10)
-                : item.likes,
-          };
-        });
-        setItems(updatedItems);
+        setItems(data.list);
         setNextCursor(data.nextCursor);
-        setNoResults(updatedItems.length === 0);
+        setNoResults(data.list.length === 0);
         setHasMore(data.list.length > 0);
       })
       .catch(console.error);
