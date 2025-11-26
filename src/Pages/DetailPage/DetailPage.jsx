@@ -15,11 +15,11 @@ function DetailPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getProducts(linkid); // 기존 명칭 유지
+        const data = await getProducts(linkid);
         console.log("Products data:", data);
         setShopDetails(data);
 
-        const detailResponse = await getLinkShopDetail(linkid); // 새로운 API 호출
+        const detailResponse = await getLinkShopDetail(linkid); 
         const jsonDetail = await detailResponse.json();
 
         setAdditionalDetails(jsonDetail);
