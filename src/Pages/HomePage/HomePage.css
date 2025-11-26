@@ -65,6 +65,11 @@
   width: 100%;
 }
 
+.loading-message {
+  text-align: center;
+  width: 100%;
+}
+
 /* 모바일 및 태블릿: 한 줄에 1개 */
 @media (max-width: 1199px) {
   .product-item {
