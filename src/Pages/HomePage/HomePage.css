@@ -27,6 +27,10 @@
   border: 1px solid #dddcdf;
 }
 
+#search:focus {
+  outline: none;
+}
+
 .filter {
   display: flex;
   align-items: center;
@@ -55,7 +59,7 @@
   font-weight: 500;
   line-height: 20.29px;
 }
-
+/* 무한스크롤 로딩 문구 */
 .loading-message {
   text-align: center;
   width: 100%;
@@ -86,54 +90,5 @@
   }
   .product-item-container {
     justify-content: space-between;
-  }
-}
-
-.home-container {
-  padding-left: 16px;
-  padding-right: 15px;
-  padding-top: 44px;
-}
-
-.input-box {
-  display: flex;
-  align-items: center;
-  height: 49px;
-  margin-top: 32px;
-}
-#input-img {
-  position: absolute;
-  left: 36px;
-}
-#search {
-  width: 100%;
-  padding: 17px 0px 17px 56px;
-  border-radius: 49px;
-  border: 1px solid #dddcdf;
-}
-.filter {
-  display: flex;
-  align-items: center;
-  margin: 20px 0 20px 21px;
-}
-
-@media (min-width: 768px) {
-  .home-container {
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-top: 32px;
-  }
-  #input-img {
-    left: 44px;
-  }
-}
-@media (min-width: 1200px) {
-  .home-container {
-    padding-left: 361px;
-    padding-right: 360px;
-    padding-top: 32px;
-  }
-  #input-img {
-    left: 381px;
   }
 }
