@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./AddItemPage.css";
 import "../../component/global.css";
 import { create } from "../../api/createLinkshop";
@@ -45,7 +45,16 @@ function AddItemPage() {
 
   // 제출 버튼 클릭 시 호출되는 함수
   const handleSubmit = async () => {
-    if (passwordError || urlError || userIdError) return;
+    // 폼 유효성 재검증
+    if (!isFormValid()) {
+      showToast("모든 필드를 올바르게 입력해주세요.");
+      return;
+    }
+
+    if (passwordError || urlError || userIdError) {
+      showToast("입력 정보를 확인해주세요.");
+      return;
+    }
 
     try {
       const response = await create(
@@ -70,6 +79,10 @@ function AddItemPage() {
       });
     } catch (error) {
       console.error("에러 발생:", error);
+      const errorMessage =
+        error.message || "등록 중 오류가 발생했습니다. 다시 시도해주세요.";
+      showToast(errorMessage);
+      setOnToastConfirm(null);
     }
   };
 
@@ -247,6 +260,7 @@ function AddItemPage() {
         <button
           className={`add-btn ${isFormValid() ? "active" : ""}`}
           onClick={handleSubmit}
+          disabled={!isFormValid()}
         >
           생성하기
         </button>

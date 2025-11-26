@@ -1,29 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./ProductCard1.css";
 import LikeButton from "../LikeButton";
 
 function ProductCard({ linkShopId, item, likeCount, isLiked: initialIsLiked }) {
-  const [localLikeCount, setLocalLikeCount] = useState(likeCount);
-  const [isLiked, setIsLiked] = useState(initialIsLiked);
-
-  useEffect(() => {
-    setLocalLikeCount(likeCount);
-  }, [likeCount]);
-
-  useEffect(() => {
-    const savedIsLiked =
-      localStorage.getItem(`shop.like.${item.id}`) === "true";
-    if (savedIsLiked !== isLiked) {
-      setIsLiked(savedIsLiked);
-      setLocalLikeCount((prevCount) => prevCount + (savedIsLiked ? 1 : -1));
-    }
-  }, [item.id, isLiked]);
-
   const handleLikeClick = (e) => {
     e.stopPropagation(); // 클릭 이벤트 전파 중지
-    const newIsLiked = !isLiked;
-    setIsLiked(newIsLiked);
-    setLocalLikeCount((prevCount) => prevCount + (newIsLiked ? 1 : -1));
   };
 
   if (!item) {
@@ -45,8 +26,8 @@ function ProductCard({ linkShopId, item, likeCount, isLiked: initialIsLiked }) {
           </div>
           <LikeButton
             itemId={item.id}
-            initialLikeCount={localLikeCount}
-            initialIsLiked={isLiked}
+            initialLikeCount={likeCount}
+            initialIsLiked={initialIsLiked}
             onLikeClick={handleLikeClick}
           />
         </div>

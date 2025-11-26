@@ -48,8 +48,13 @@
   margin-top: 75px;
 }
 
-.add-btn:hover {
+.add-btn:hover:not(:disabled) {
   cursor: pointer;
+}
+
+.add-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .myshop-container {
